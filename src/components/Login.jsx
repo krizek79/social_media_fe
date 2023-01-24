@@ -12,6 +12,7 @@ export default function Login() {
                     Sign in
                 </a>
             </div>
+
             {showModal ? (
                 <>
                     <div
@@ -19,7 +20,7 @@ export default function Login() {
                         z-50 outline-none focus:outline-none"
                     >
                         <div className="w-full absolute flex flex-col justify-center min-h-screen overflow-hidden">
-                            <div className="w-full p-6 pt-3 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
+                            <div className="sm:px-6 w-full p-6 pt-3 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
                                 <div className={"width-full text-end"}>
                                     <button
                                         className="text-2xl text-center cursor-pointer"
