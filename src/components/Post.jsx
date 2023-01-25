@@ -6,18 +6,14 @@ export default function Post(props) {
                 flex-col md:flex-row"
             >
                 <div className="font-medium text-lg">
-                    Meno
+                    {props.ownerUsername}
                 </div>
                 <div className="font-normal text-xs">
-                    HH:MM DD/MM/YYYY
+                    {props.createdAt}
                 </div>
             </div>
             <div className="pt-2">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquid delectus distinctio
-                exercitationem iure laborum molestiae nihil, non omnis quibusdam sed sit tenetur voluptate.
-                Autem expedita facilis iusto maiores sed. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Accusamus ad alias aperiam dolor dolorum, ea eligendi esse, facere ipsam, labore maiores nisi nobis
-                officiis provident repellendus sequi sit tenetur ullam.
+                {props.body}
             </div>
         </div>
     )

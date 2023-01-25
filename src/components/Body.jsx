@@ -4,12 +4,18 @@ import Post from "./Post";
 
 export default function Body() {
 
-    const [posts, setPosts] = useState(null)
+    const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        setLoading(true)
+    async function getAllPosts() {
+        return await postService.getAllPosts()
+    }
 
+    useEffect(() => {
+        getAllPosts().then(data => {
+            setPosts(data.data)
+            setLoading(false)
+        })
     }, [])
 
     return (
@@ -17,12 +23,22 @@ export default function Body() {
             <div
                 className="flex-col overflow-y-auto mx-auto w-11/12 md:w-3/5 m-6 p-6 bg-white rounded shadow-md"
             >
-                <section className="flex flex-col gap-y-3">
-                    <Post/>
-                    <Post/>
-                    <Post/>
-                    <Post/>
-                </section>
+                {loading ? (
+                    <div className="text-center p-6">
+                        Loading...
+                    </div>
+                ) : (
+                    <section className="flex flex-col gap-y-3">
+                        {posts.map(post => (
+                            <Post
+                                key={post.id}
+                                ownerUsername={post.ownerUsername}
+                                body={post.body}
+                                createdAt={post.createdAt}
+                            />
+                        ))}
+                    </section>
+                )}
             </div>
         </main>
     )
