@@ -1,4 +1,5 @@
 export default function Post(props) {
+
     return (
         <div className={"p-5 border rounded"}>
             <div
@@ -12,7 +13,7 @@ export default function Post(props) {
                     {props.createdAt}
                 </div>
             </div>
-            <div className="pt-2">
+            <div className="pt-2 break-normal">
                 {props.body}
             </div>
         </div>
