@@ -11,8 +11,7 @@ export default function CreatePost() {
         setRequest({...request, [e.target.name]: e.target.value})
     }
 
-    function createPost(e) {
-        e.preventDefault()
+    function createPost() {
         postService.createPost(request)
     }
 
@@ -30,7 +29,7 @@ export default function CreatePost() {
                 <button
                     className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform
                     bg-green-700 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600text-sm"
-                    onClick={() => createPost()}
+                    onClick={createPost}
                 >
                     Publish
                 </button>
