@@ -15,7 +15,8 @@ export default function CreatePost() {
         setRequest({...request, [e.target.name]: e.target.value})
     }
 
-    function createPost() {
+    function createPost(e) {
+        e.preventDefault()
         setError(null)
         setLoading(true)
         postService.createPost(request)
@@ -23,6 +24,7 @@ export default function CreatePost() {
                 console.log(response)
                 setRequest({...request, body: ""})
                 setLoading(false)
+                location.reload()
             })
             .catch(e => {
                 console.log(e.response.status + ": " + e.response.data.message)
