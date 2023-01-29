@@ -1,6 +1,31 @@
+import authService from "../service/AuthService.js"
+import {useState} from "react";
+
 export default function Register(props) {
 
     const toggleModal = props.action
+    const [registrationRequest, setRegistrationRequest] = useState({
+        email: "",
+        username: "",
+        password: "",
+        matchingPassword: ""
+    })
+
+    function handleChange(e) {
+        setRegistrationRequest({...registrationRequest, [e.target.name]: e.target.value})
+    }
+
+    function register(e) {
+        e.preventDefault()
+        return authService.register(registrationRequest)
+            .then(response => {
+                console.log(response)
+                toggleModal()
+            })
+            .catch(e => {
+                console.log(e.response.status + ": " + e.response.data.message)
+            })
+    }
 
     return (
         <>
@@ -32,6 +57,9 @@ export default function Register(props) {
                                 <input
                                     id="email"
                                     type="email"
+                                    name={"email"}
+                                    value={registrationRequest.email}
+                                    onChange={handleChange}
                                     className="block w-full px-4 py-2 mt-2 text-black bg-white border
                                     rounded-md focus:border-blue-700 focus:ring-blue-300 focus:outline-none
                                     focus:ring focus:ring-opacity-40"
@@ -47,9 +75,12 @@ export default function Register(props) {
                                 <input
                                     id="username"
                                     type="text"
+                                    name={"username"}
+                                    value={registrationRequest.username}
                                     className="block w-full px-4 py-2 mt-2 text-black bg-white border
                                     rounded-md focus:border-blue-700 focus:ring-blue-300 focus:outline-none
                                     focus:ring focus:ring-opacity-40"
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="mb-2">
@@ -62,9 +93,12 @@ export default function Register(props) {
                                 <input
                                     id="password"
                                     type="password"
+                                    name={"password"}
+                                    value={registrationRequest.password}
                                     className="block w-full px-4 py-2 mt-2 text-black bg-white border
                                     rounded-md focus:border-blue-700 focus:ring-blue-300 focus:outline-none
                                     focus:ring focus:ring-opacity-40"
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="mb-2">
@@ -77,9 +111,12 @@ export default function Register(props) {
                                 <input
                                     id="matchingPassword"
                                     type="password"
+                                    name={"matchingPassword"}
+                                    value={registrationRequest.matchingPassword}
                                     className="block w-full px-4 py-2 mt-2 text-black bg-white border
                                     rounded-md focus:border-blue-700 focus:ring-blue-300 focus:outline-none
                                     focus:ring focus:ring-opacity-40"
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="mt-6">
@@ -87,6 +124,7 @@ export default function Register(props) {
                                     className="w-full px-4 py-2 tracking-wide text-white transition-colors
                                     duration-200 transform bg-green-700 rounded-md hover:bg-green-600
                                     focus:outline-none focus:bg-green-600"
+                                    onClick={register}
                                 >
                                     Sign up
                                 </button>
