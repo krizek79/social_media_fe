@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react"
 import postService from "../service/PostService.js"
 import {useNavigate} from "react-router-dom";
 import authService from "../service/AuthService.js";
+import LoadingModal from "./LoadingModal";
 
 export default function Home() {
 
@@ -39,9 +40,7 @@ export default function Home() {
                 md:p-6"
             >
                 {loading ? (
-                    <div className="text-center p-6 animate-pulse">
-                        Loading...
-                    </div>
+                    <LoadingModal/>
                 ) : (
                     <section className="flex-col">
                         <CreatePost/>

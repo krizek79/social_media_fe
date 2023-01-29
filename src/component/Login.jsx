@@ -1,12 +1,14 @@
 import React, {useState} from "react"
-import Register from "./Register.jsx"
+import RegistrationModal from "./RegistrationModal.jsx"
 import authService from "../service/AuthService.js"
 import {useNavigate} from "react-router-dom"
+import LoadingModal from "./LoadingModal";
 
 export default function Login() {
 
     const navigate = useNavigate()
     const [registrationModal, setRegistrationModal] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [loginRequest, setLoginRequest] = useState({
         email: "",
         password: ""
@@ -22,16 +24,19 @@ export default function Login() {
 
     function login(e) {
         e.preventDefault()
+        setLoading(true)
         authService.login(loginRequest)
             .then(response => {
                 if (response.data.authenticationToken) {
                     localStorage.setItem("authenticationToken", response.data.authenticationToken)
                     localStorage.setItem("username", response.data.username)
                 }
+                setLoading(false)
                 navigate("/home")
             })
             .catch(e => {
                 console.log(e.response.status + ": " + e.response.data.message)
+                setLoading(false)
                 navigate("/")
             })
     }
@@ -77,7 +82,7 @@ export default function Login() {
                                 />
                             </div>
                             {/*<a*/}
-                            {/*    href="src/components#"*/}
+                            {/*    href="src/component#"*/}
                             {/*    className="text-xs text-blue-700 hover:underline"*/}
                             {/*>*/}
                             {/*    Forgot Password?*/}
@@ -108,7 +113,11 @@ export default function Login() {
             </div>
 
             {registrationModal && (
-                <Register action={toggleRegistrationModal}/>
+                <RegistrationModal action={toggleRegistrationModal}/>
+            )}
+
+            {loading && (
+                <LoadingModal/>
             )}
         </main>
     )
