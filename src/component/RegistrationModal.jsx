@@ -1,11 +1,13 @@
 import authService from "../service/AuthService.js"
-import {useState} from "react";
+import React, {useState} from "react";
 import LoadingModal from "./LoadingModal.jsx";
+import ErrorNotification from "./ErrorNotification";
 
 export default function RegistrationModal(props) {
 
     const toggleModal = props.action
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
     const [registrationRequest, setRegistrationRequest] = useState({
         email: "",
         username: "",
@@ -19,6 +21,7 @@ export default function RegistrationModal(props) {
 
     function register(e) {
         e.preventDefault()
+        setError(null)
         setLoading(true)
         return authService.register(registrationRequest)
             .then(response => {
@@ -28,6 +31,7 @@ export default function RegistrationModal(props) {
             })
             .catch(e => {
                 console.log(e.response.status + ": " + e.response.data.message)
+                setError(e.response.data.message)
                 setLoading(false)
             })
     }
@@ -142,6 +146,10 @@ export default function RegistrationModal(props) {
 
             {loading && (
                 <LoadingModal/>
+            )}
+
+            {error && (
+                <ErrorNotification message={error}/>
             )}
         </>
     )

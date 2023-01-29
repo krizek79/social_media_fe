@@ -30,6 +30,7 @@ export default function Home() {
                 } else {
                     console.log(e.response.status + ": " + e.response.data.message)
                 }
+                setLoading(false)
             })
     }, [])
 

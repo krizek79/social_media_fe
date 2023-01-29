@@ -3,18 +3,21 @@ import RegistrationModal from "./RegistrationModal.jsx"
 import authService from "../service/AuthService.js"
 import {useNavigate} from "react-router-dom"
 import LoadingModal from "./LoadingModal";
+import ErrorNotification from "./ErrorNotification";
 
 export default function Login() {
 
     const navigate = useNavigate()
     const [registrationModal, setRegistrationModal] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
     const [loginRequest, setLoginRequest] = useState({
         email: "",
         password: ""
     })
 
     function toggleRegistrationModal() {
+        setError(null)
         setRegistrationModal(!registrationModal)
     }
 
@@ -24,6 +27,7 @@ export default function Login() {
 
     function login(e) {
         e.preventDefault()
+        setError(null)
         setLoading(true)
         authService.login(loginRequest)
             .then(response => {
@@ -35,7 +39,12 @@ export default function Login() {
                 navigate("/home")
             })
             .catch(e => {
-                console.log(e.response.status + ": " + e.response.data.message)
+                if (e.response.status === 401) {
+                    setError("Email and password do not match")
+                } else {
+                    console.log(e.response.status + ": " + e.response.data.message)
+                    setError(e.response.data.message)
+                }
                 setLoading(false)
                 navigate("/")
             })
@@ -114,6 +123,10 @@ export default function Login() {
 
             {registrationModal && (
                 <RegistrationModal action={toggleRegistrationModal}/>
+            )}
+
+            {error && (
+                <ErrorNotification message={error}/>
             )}
 
             {loading && (
