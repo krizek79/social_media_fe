@@ -2,12 +2,14 @@ import authService from "../service/AuthService.js"
 import React, {useState} from "react";
 import LoadingModal from "./LoadingModal.jsx";
 import ErrorNotification from "./ErrorNotification";
+import {useNavigate} from "react-router-dom";
 
 export default function RegistrationModal(props) {
 
     const toggleModal = props.action
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+    const navigate = useNavigate()
     const [registrationRequest, setRegistrationRequest] = useState({
         email: "",
         username: "",
@@ -28,6 +30,7 @@ export default function RegistrationModal(props) {
                 console.log(response)
                 setLoading(false)
                 toggleModal()
+                navigate("/registration-successful")
             })
             .catch(e => {
                 console.log(e.response.status + ": " + e.response.data.message)
@@ -142,7 +145,7 @@ export default function RegistrationModal(props) {
                     </div>
                 </div>
             </div>
-            <div className="opacity-50 fixed inset-0 z-40 bg-black"></div>
+            <div className="opacity-75 fixed inset-0 z-40 bg-black"></div>
 
             {loading && (
                 <LoadingModal/>

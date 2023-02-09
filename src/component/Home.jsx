@@ -49,6 +49,7 @@ export default function Home() {
                             {posts.map(post => (
                                 <Post
                                     key={post.id}
+                                    id={post.id}
                                     ownerUsername={post.ownerUsername}
                                     body={post.body}
                                     createdAt={post.createdAt}

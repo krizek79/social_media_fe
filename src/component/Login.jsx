@@ -34,6 +34,7 @@ export default function Login() {
                 if (response.data.authenticationToken) {
                     localStorage.setItem("authenticationToken", response.data.authenticationToken)
                     localStorage.setItem("username", response.data.username)
+                    localStorage.setItem("role", response.data.role)
                 }
                 setLoading(false)
                 navigate("/home")

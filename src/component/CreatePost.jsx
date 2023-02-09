@@ -20,14 +20,12 @@ export default function CreatePost() {
         setError(null)
         setLoading(true)
         postService.createPost(request)
-            .then(response => {
-                console.log(response)
+            .then(() => {
                 setRequest({...request, body: ""})
                 setLoading(false)
                 location.reload()
             })
             .catch(e => {
-                console.log(e.response.status + ": " + e.response.data.message)
                 setError(e.response.data.message)
                 setLoading(false)
             })
