@@ -50,7 +50,7 @@ export default function Home() {
                                 <Post
                                     key={post.id}
                                     id={post.id}
-                                    ownerUsername={post.ownerUsername}
+                                    owner={post.owner}
                                     body={post.body}
                                     createdAt={post.createdAt}
                                 />

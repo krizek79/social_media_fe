@@ -64,14 +64,21 @@ export default function PostDetails(props) {
                 <div className="absolute flex flex-col justify-center min-h-screen overflow-hidden w-11/12 md:w-7/12">
                     <div className="sm:px-6 p-6 pt-3 m-auto bg-white rounded-md shadow-md w-full">
                         <div className={"flex justify-between border-b pb-3"}>
-                            <div
-                                className="gap-y-1/2 justify-between flex flex-col"
-                            >
-                                <div className="font-medium text-lg">
-                                    {props.ownerUsername}
-                                </div>
-                                <div className="font-normal text-xs">
-                                    {props.createdAt}
+                            <div className="flex flex-row gap-x-3">
+                                <img
+                                    src={props.owner.avatarUrl}
+                                    alt={"User avatar..."}
+                                    className="rounded object-scale-down h-12 w-12"
+                                />
+                                <div
+                                    className="gap-y-1/2 flex flex-col"
+                                >
+                                    <div className="font-medium text-lg">
+                                        {props.owner.username}
+                                    </div>
+                                    <div className="font-normal text-xs">
+                                        {props.createdAt}
+                                    </div>
                                 </div>
                             </div>
                             <button
@@ -87,7 +94,9 @@ export default function PostDetails(props) {
                                     name="body"
                                     value={request.body}
                                     onChange={handleChange}
-                                    className="w-full py-2 break-normal"
+                                    className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md
+                                    focus:border-blue-700 focus:ring-blue-300 focus:outline-none focus:ring
+                                    focus:ring-opacity-40"
                                 >
                                     {request.body}
                                 </textarea>
@@ -100,7 +109,7 @@ export default function PostDetails(props) {
                             </div>
                         )}
 
-                        {props.ownerUsername === localStorage.getItem("username")
+                        {props.owner.username === localStorage.getItem("username")
                         || localStorage.getItem("role") === "ADMIN" ? (
                             <div className="justify-end w-full flex flex-row gap-x-3 pt-3">
                                 {isEditable ? (
