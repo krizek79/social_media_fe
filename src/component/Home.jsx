@@ -12,14 +12,30 @@ export default function Home() {
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
 
-    async function getAllPosts() {
-        return await postService.getAllPosts()
+    function addNewPost(newPost) {
+        setPosts([newPost, ...posts]);
+    }
+
+    function deletePost(postId) {
+        setPosts(posts.filter(post => post.id !== postId))
+    }
+
+    function updatePost(updatedPost) {
+        setPosts(posts.map(post => {
+            if (post.id === updatedPost.id) {
+                return updatedPost;
+            } else {
+                return post;
+            }
+        }))
     }
 
     useEffect(() => {
-        getAllPosts()
+        setLoading(true)
+        postService.getAllPosts()
             .then(response => {
-                setPosts(response.data)
+                const reversedPosts = response.data.reverse()
+                setPosts(reversedPosts)
                 setLoading(false)
             })
             .catch(e => {
@@ -44,8 +60,8 @@ export default function Home() {
                     <LoadingModal/>
                 ) : (
                     <section className="flex-col">
-                        <CreatePost/>
-                        <div className="flex flex-col-reverse gap-y-3">
+                        <CreatePost addNewPost={addNewPost}/>
+                        <div className="flex flex-col gap-y-3">
                             {posts.map(post => (
                                 <Post
                                     key={post.id}
@@ -53,6 +69,8 @@ export default function Home() {
                                     owner={post.owner}
                                     body={post.body}
                                     createdAt={post.createdAt}
+                                    deletePost={deletePost}
+                                    updatePost={updatePost}
                                 />
                             ))}
                         </div>

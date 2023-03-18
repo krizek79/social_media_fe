@@ -1,12 +1,19 @@
 import {useState} from "react";
-import PostDetails from "./PostDetails";
+import PostModal from "./PostModal.jsx";
+import {useNavigate} from "react-router-dom";
 
 export default function Post(props) {
 
+    const navigate = useNavigate()
     const [modal, setModal] = useState(false)
 
     function toggleModal() {
         setModal(!modal)
+        if (modal) {
+            document.body.classList.remove('overflow-hidden')
+        } else {
+            document.body.classList.add('overflow-hidden')
+        }
     }
 
     function formatDate(date) {
@@ -20,12 +27,17 @@ export default function Post(props) {
                     <img
                         src={props.owner.avatarUrl}
                         alt={"User avatar..."}
-                        className="rounded object-scale-down h-12 w-12"
+                        className="rounded object-scale-down h-12 w-12 hover:cursor-pointer hover:rounded-lg
+                        ease-in duration-200"
+                        onClick={() => navigate("/profile?username=" + props.owner.username)}
                     />
                     <div
                         className="flex flex-col"
                     >
-                        <div className="font-medium text-lg">
+                        <div
+                            className="font-medium text-lg hover:cursor-pointer"
+                            onClick={() => navigate("/profile?username=" + props.owner.username)}
+                        >
                             {props.owner.username}
                         </div>
                         <div className="font-normal text-xs">
@@ -47,13 +59,15 @@ export default function Post(props) {
             </div>
 
             {modal && (
-                <PostDetails
+                <PostModal
                     key={props.id}
                     id={props.id}
                     owner={props.owner}
                     body={props.body}
                     createdAt={formatDate(props.createdAt)}
                     toggle={toggleModal}
+                    deletePost={props.deletePost}
+                    updatePost={props.updatePost}
                 />
             )}
         </>
