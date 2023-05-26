@@ -1,8 +1,8 @@
 export default function Footer() {
     return (
         <footer
-            className="bottom-0 left-0 z-20 w-full px-10 py-4 bg-white border-t border-gray-200 flex flex-col md:flex-row
-            items-center justify-between md:py-6 md:px-10 dark:bg-gray-800 dark:border-gray-600"
+            className="left-0 z-20 w-full px-10 py-4 bg-white border-t border-gray-200 flex flex-col
+            md:flex-row items-center justify-between md:py-6 md:px-10 dark:bg-gray-800 dark:border-gray-600"
         >
             <div className="text-left">© 2023 Copyright: Matej Križan</div>
             <div className="text-right">

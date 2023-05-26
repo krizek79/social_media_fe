@@ -31,6 +31,10 @@ export default function Home() {
     }
 
     useEffect(() => {
+        if (!localStorage.getItem("authenticationToken")) {
+            navigate("/authentication")
+        }
+        document.body.classList.remove('overflow-hidden')
         setLoading(true)
         postService.getAllPosts()
             .then(response => {
@@ -42,7 +46,7 @@ export default function Home() {
                 if (e.response.status === 401) {
                     console.log("401 Unauthorized")
                     authService.logout()
-                    navigate("/login")
+                    navigate("/authentication")
                 } else {
                     console.log(e.response.status + ": " + e.response.data.message)
                 }

@@ -1,10 +1,12 @@
-import postService from "../service/PostService.js";
 import React, { useState } from "react";
 import LoadingModal from "./LoadingModal.jsx";
 import ErrorNotification from "./ErrorNotification.jsx";
+import commentService from "../service/CommentService.js";
 
-export default function CreatePost(props) {
+export default function CreateComment(props) {
     const [request, setRequest] = useState({
+        postId: props.postId,
+        parentComment: props.parentComment,
         body: ""
     });
     const [loading, setLoading] = useState(false);
@@ -24,17 +26,17 @@ export default function CreatePost(props) {
         setRequest({ ...request, [e.target.name]: e.target.value });
     }
 
-    function createPost() {
+    function createComment() {
         setError(null);
         if (!validateBody(request.body)) {
             return;
         }
 
         setLoading(true);
-        postService
-            .createPost(request)
+        commentService
+            .createComment(request)
             .then(response => {
-                props.addNewPost(response.data);
+                props.addNewComment(response.data);
                 setRequest({ ...request, body: "" });
                 setLoading(false);
             })
@@ -73,27 +75,26 @@ export default function CreatePost(props) {
 
     return (
         <>
-            <div className="p-5 border rounded mb-3">
+            <div className="p-3 border rounded mb-3">
         <textarea
             id="body"
-            rows="4"
+            rows="1"
             name="body"
             value={request.body}
             className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md focus:border-blue-700 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
             onChange={handleChange}
-            placeholder="What is on your mind?"
+            placeholder="Add a new comment"
         ></textarea>
                 <div className="flex justify-end w-full">
                     <button
                         className={submitButtonClasses.join(" ")}
-                        onClick={createPost}
+                        onClick={createComment}
                         disabled={!isBodyValid}
                     >
                         Publish
                     </button>
                 </div>
             </div>
-
             {loading && <LoadingModal />}
             {error && <ErrorNotification message={error} />}
         </>

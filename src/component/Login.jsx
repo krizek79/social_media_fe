@@ -65,10 +65,11 @@ export default function Login() {
                 if (response.data.authenticationToken) {
                     localStorage.setItem("authenticationToken", response.data.authenticationToken)
                     localStorage.setItem("username", response.data.username)
+                    localStorage.setItem("avatarUrl", response.data.avatarUrl)
                     localStorage.setItem("role", response.data.role)
                 }
                 setLoading(false)
-                navigate("/home")
+                navigate("/")
             })
             .catch(e => {
                 if (e.response.status === 401) {

@@ -35,6 +35,7 @@ export default function Profile() {
     }
 
     useEffect(() => {
+        document.body.classList.remove('overflow-hidden')
         setLoading(true)
 
         appUserService.getAppUserByUsername(username)
@@ -45,27 +46,28 @@ export default function Profile() {
             .catch(error => {
                 setLoading(false)
                 if (error.response.status === 401) {
-                    navigate("/login")
+                    navigate("/authentication")
                 }
                 console.log(error.response.status + ": " + error.response.data.message)
             })
-    }, [])
+    }, [username])
 
     useEffect(() => {
         setLoading(true)
         postService.getAllPostsByUsername(username)
             .then(response => {
                 setLoading(false)
-                setPosts(response.data)
+                const reversedPosts = response.data.reverse()
+                setPosts(reversedPosts)
             })
             .catch(error => {
                 setLoading(false)
                 if (error.response.status === 401) {
-                    navigate("/login")
+                    navigate("/authentication")
                 }
                 console.log(error.response.status + ": " + error.response.data.message)
             })
-    }, [])
+    }, [username])
 
     return (
         <main className="bg-gradient-to-b from-gray-900 to-gray-700 flex">
@@ -82,6 +84,7 @@ export default function Profile() {
                     <div className="flex flex-col">
                         <h1 className="font-medium text-3xl">{profileData.username}</h1>
                         <span className="text-md">{profileData.email}</span>
+                        <p className="font-thin py-3 italic">{profileData.bio}</p>
                     </div>
                 </div>
                 <div className="flex flex-col py-6">

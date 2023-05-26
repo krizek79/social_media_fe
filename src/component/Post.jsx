@@ -26,7 +26,7 @@ export default function Post(props) {
                 <div className="border-solid border-0 border-b border-blue-600 pb-2 flex flex-row gap-x-3">
                     <img
                         src={props.owner.avatarUrl}
-                        alt={"User avatar..."}
+                        alt={"Profile picture"}
                         className="rounded object-scale-down h-12 w-12 hover:cursor-pointer hover:rounded-lg
                         ease-in duration-200"
                         onClick={() => navigate("/profile?username=" + props.owner.username)}
@@ -48,7 +48,7 @@ export default function Post(props) {
                 <div className="pt-2 break-normal">
                     {props.body}
                 </div>
-                <div className="flex w-full justify-center pt-3">
+                <div className="flex w-full pt-3">
                     <a
                         className="text-blue-600 cursor-pointer hover:text-blue-500"
                         onClick={toggleModal}

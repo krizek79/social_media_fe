@@ -1,8 +1,12 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import postService from "../service/PostService.js";
 import LoadingModal from "./LoadingModal.jsx";
 import ErrorNotification from "./ErrorNotification.jsx";
 import {useNavigate} from "react-router-dom";
+import authService from "../service/AuthService.js";
+import commentService from "../service/CommentService.js";
+import Comment from "./Comment.jsx";
+import CreateComment from "./CreateComment.jsx";
 
 export default function PostModal(props) {
 
@@ -14,6 +18,11 @@ export default function PostModal(props) {
     const [request, setRequest] = useState({
         body: props.body
     })
+    const [comments, setComments] = useState([])
+
+    function addNewComment(newComment) {
+        setComments([newComment, ...comments]);
+    }
 
     function deletePost() {
         setLoading(true)
@@ -57,6 +66,26 @@ export default function PostModal(props) {
             })
     }
 
+    useEffect(() => {
+        setLoading(true)
+        commentService.getAllCommentsByPostId(props.id)
+            .then(response => {
+                const reversedComments = response.data.reverse()
+                setComments(reversedComments)
+                setLoading(false)
+            })
+            .catch(e => {
+                if (e.response.status === 401) {
+                    console.log("401 Unauthorized")
+                    authService.logout()
+                    navigate("/authentication")
+                } else {
+                    console.log(e.response.status + ": " + e.response.data.message)
+                }
+                setLoading(false)
+            })
+    }, [])
+
     function handleChange(e) {
         setRequest({...request, [e.target.name]: e.target.value})
     }
@@ -65,10 +94,10 @@ export default function PostModal(props) {
         <>
             <div
                 className="justify-center items-center flex flex-col fixed inset-0 z-50 outline-none
-                focus:outline-none w-full rounded-md w-full"
+                focus:outline-none w-full rounded-md my-12"
             >
                 <div
-                    className="sm:px-6 p-6 pt-3 bg-white rounded-md shadow-md overflow-y-auto w-11/12 lg:w-2/3"
+                    className="sm:px-6 p-6 pt-6 bg-white rounded-md shadow-md overflow-y-auto w-11/12 lg:w-2/3"
                 >
                     <div className={"flex justify-between border-b pb-3"}>
                         <div className="flex flex-row gap-x-3">
@@ -170,8 +199,24 @@ export default function PostModal(props) {
                         </div>
                     ) : null}
 
-                    <div className="py-3 font-medium text-base">
-                        Comments (999)
+                    <div className="flex flex-col py-3 text-base gap-y-3">
+                        <span className="font-medium">Comments ({comments.length})</span>
+                        <CreateComment
+                            postId={props.id}
+                            parentComment={null}
+                            addNewComment={addNewComment}
+                        />
+                        <div className="flex flex-col gap-y-3">
+                            {comments.map(comment => (
+                                <Comment
+                                    key={comment.id}
+                                    id={comment.id}
+                                    author={comment.author}
+                                    createdAt={comment.createdAt}
+                                    body={comment.body}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

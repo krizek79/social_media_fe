@@ -5,7 +5,7 @@ const APP_USER_API_BASE_URL = "http://localhost:8080/app-users"
 export default new class AppUserService {
 
     getAppUserByUsername(username) {
-        return axios.get(APP_USER_API_BASE_URL + "?username=" + username, {
+        return axios.get(APP_USER_API_BASE_URL + "/username/" + username, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("authenticationToken")
             }
