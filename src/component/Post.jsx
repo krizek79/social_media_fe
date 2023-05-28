@@ -31,7 +31,7 @@ export default function Post(props) {
                     <img
                         src={props.owner.avatarUrl}
                         alt="Profile picture"
-                        className="rounded object-scale-down h-12 w-12 hover:cursor-pointer hover:rounded-lg ease-in
+                        className="rounded object-scale-down h-12 w-12 hover:cursor-pointer hover:grayscale-[50%]
                         duration-200"
                         onClick={(e) => {
                             e.stopPropagation()
@@ -57,7 +57,7 @@ export default function Post(props) {
                     className="pt-2 break-normal"
                     dangerouslySetInnerHTML={{ __html: formatBody(props.body) }}
                 ></div>
-                <div className="flex w-full gap-x-12 pt-3">
+                <div className="flex w-full gap-x-6 pt-3">
                     <button className="hover:cursor-pointer hover:text-red-500 flex gap-x-3 items-center">
                         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"></path>
