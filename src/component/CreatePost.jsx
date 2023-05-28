@@ -25,23 +25,24 @@ export default function CreatePost(props) {
     }
 
     function createPost() {
-        setError(null);
+        setError(null)
         if (!validateBody(request.body)) {
-            return;
+            return
         }
 
-        setLoading(true);
+        setLoading(true)
         postService
             .createPost(request)
             .then(response => {
-                props.addNewPost(response.data);
-                setRequest({ ...request, body: "" });
-                setLoading(false);
+                props.addNewPost(response.data)
+                setRequest({ ...request, body: "" })
+                setIsBodyValid(false)
+                setLoading(false)
             })
             .catch(e => {
-                setError(e.response.data.message);
-                setLoading(false);
-            });
+                setError(e.response.data.message)
+                setLoading(false)
+            })
     }
 
     const submitButtonClasses = [
@@ -55,34 +56,35 @@ export default function CreatePost(props) {
         "rounded-md",
         "focus:outline-none",
         "hover:cursor-pointer"
-    ];
+    ]
 
     if (!isBodyValid) {
         submitButtonClasses.push(
             "bg-gray-900",
             "opacity-50",
             "hover:cursor-not-allowed"
-        );
+        )
     } else {
         submitButtonClasses.push(
             "bg-green-700",
             "focus:bg-green-600",
             "hover:bg-green-600"
-        );
+        )
     }
 
     return (
         <>
             <div className="p-5 border rounded mb-3">
-        <textarea
-            id="body"
-            rows="4"
-            name="body"
-            value={request.body}
-            className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md focus:border-blue-700 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            onChange={handleChange}
-            placeholder="What is on your mind?"
-        ></textarea>
+                <textarea
+                    id="body"
+                    rows="4"
+                    name="body"
+                    value={request.body}
+                    className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md
+                    focus:border-blue-700 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                    onChange={handleChange}
+                    placeholder="What is on your mind?"
+                ></textarea>
                 <div className="flex justify-end w-full">
                     <button
                         className={submitButtonClasses.join(" ")}
@@ -97,5 +99,5 @@ export default function CreatePost(props) {
             {loading && <LoadingModal />}
             {error && <ErrorNotification message={error} />}
         </>
-    );
+    )
 }

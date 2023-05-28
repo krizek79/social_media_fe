@@ -21,12 +21,12 @@ export default function Comment(props) {
                 <div
                     className="flex flex-col"
                 >
-                    <div
-                        className="font-medium text-base hover:cursor-pointer"
-                        onClick={() => navigate("/profile?username=" + props.author.username)}
+                    <a
+                        className="font-medium text-base hover:cursor-pointer hover:underline"
+                        href={"/profile?username=" + props.author.username}
                     >
                         {props.author.username}
-                    </div>
+                    </a>
                     <div className="font-normal text-xs">
                         {formatDate(props.createdAt)}
                     </div>

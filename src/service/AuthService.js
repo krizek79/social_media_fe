@@ -12,10 +12,6 @@ export default new class AuthService {
         return axios.post(AUTH_API_BASE_URL + "/login", request)
     }
 
-    refreshToken(request) {
-        return axios.post(AUTH_API_BASE_URL + "/refreshToken", request)
-    }
-
     logout() {
         localStorage.removeItem("authenticationToken")
         localStorage.removeItem("username")

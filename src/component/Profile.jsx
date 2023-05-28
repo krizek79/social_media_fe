@@ -4,6 +4,7 @@ import LoadingModal from "./LoadingModal.jsx";
 import {useNavigate} from "react-router-dom";
 import postService from "../service/PostService.js";
 import Post from "./Post.jsx";
+import CreatePost from "./CreatePost.jsx";
 
 export default function Profile() {
 
@@ -35,25 +36,19 @@ export default function Profile() {
     }
 
     useEffect(() => {
-        document.body.classList.remove('overflow-hidden')
         setLoading(true)
 
         appUserService.getAppUserByUsername(username)
             .then(response => {
-                setLoading(false)
                 setProfileData(response.data)
             })
             .catch(error => {
-                setLoading(false)
                 if (error.response.status === 401) {
                     navigate("/authentication")
                 }
                 console.log(error.response.status + ": " + error.response.data.message)
             })
-    }, [username])
 
-    useEffect(() => {
-        setLoading(true)
         postService.getAllPostsByUsername(username)
             .then(response => {
                 setLoading(false)
@@ -69,6 +64,10 @@ export default function Profile() {
             })
     }, [username])
 
+    function addNewPost(newPost) {
+        setPosts([newPost, ...posts])
+    }
+
     return (
         <main className="bg-gradient-to-b from-gray-900 to-gray-700 flex">
             <div
@@ -81,13 +80,16 @@ export default function Profile() {
                         alt={"User avatar..."}
                         className="rounded-full h-24 w-24 hover:cursor-pointer"
                     />
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-full">
                         <h1 className="font-medium text-3xl">{profileData.username}</h1>
                         <span className="text-md">{profileData.email}</span>
                         <p className="font-thin py-3 italic">{profileData.bio}</p>
                     </div>
                 </div>
                 <div className="flex flex-col py-6">
+                    {localStorage.getItem("username") === username && (
+                        <CreatePost addNewPost={addNewPost}/>
+                    )}
                     <div className="flex flex-col gap-y-3">
                         {posts.map(post => (
                             <Post

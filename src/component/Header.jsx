@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function Header() {
 
     const navigate = useNavigate()
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     function logout() {
         authService.logout()
@@ -14,7 +14,7 @@ export default function Header() {
     }
 
     function toggleMobileMenu() {
-        setIsMobileMenuOpen(!isMobileMenuOpen)
+        setIsMenuOpen(!isMenuOpen)
     }
 
     return (
@@ -39,7 +39,7 @@ export default function Header() {
                             className="rounded-full h-12 w-12 object-scale-down hover:cursor-pointer"
                             onClick={toggleMobileMenu}
                         />
-                        {isMobileMenuOpen && (
+                        {isMenuOpen && (
                             <>
                                 <div className="fixed z-50 bottom-0 top-0 left-0 bg-white px-3 w-4/5 md:w-1/4">
                                     <div className="w-full flex border-b justify-end">

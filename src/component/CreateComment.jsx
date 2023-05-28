@@ -8,41 +8,42 @@ export default function CreateComment(props) {
         postId: props.postId,
         parentComment: props.parentComment,
         body: ""
-    });
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [isBodyValid, setIsBodyValid] = useState(false);
+    })
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+    const [isBodyValid, setIsBodyValid] = useState(false)
 
     function validateBody(body) {
-        const isValid = body.length > 0;
-        setIsBodyValid(isValid);
-        return isValid;
+        const isValid = body.length > 0
+        setIsBodyValid(isValid)
+        return isValid
     }
 
     function handleChange(e) {
         if (e.target.name === "body") {
-            validateBody(e.target.value);
+            validateBody(e.target.value)
         }
-        setRequest({ ...request, [e.target.name]: e.target.value });
+        setRequest({ ...request, [e.target.name]: e.target.value })
     }
 
     function createComment() {
         setError(null);
         if (!validateBody(request.body)) {
-            return;
+            return
         }
 
         setLoading(true);
         commentService
             .createComment(request)
             .then(response => {
-                props.addNewComment(response.data);
-                setRequest({ ...request, body: "" });
-                setLoading(false);
+                props.addNewComment(response.data)
+                setRequest({ ...request, body: "" })
+                setIsBodyValid(false)
+                setLoading(false)
             })
             .catch(e => {
-                setError(e.response.data.message);
-                setLoading(false);
+                setError(e.response.data.message)
+                setLoading(false)
             });
     }
 
@@ -57,34 +58,35 @@ export default function CreateComment(props) {
         "rounded-md",
         "focus:outline-none",
         "hover:cursor-pointer"
-    ];
+    ]
 
     if (!isBodyValid) {
         submitButtonClasses.push(
             "bg-gray-900",
             "opacity-50",
             "hover:cursor-not-allowed"
-        );
+        )
     } else {
         submitButtonClasses.push(
             "bg-green-700",
             "focus:bg-green-600",
             "hover:bg-green-600"
-        );
+        )
     }
 
     return (
         <>
             <div className="p-3 border rounded mb-3">
-        <textarea
-            id="body"
-            rows="1"
-            name="body"
-            value={request.body}
-            className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md focus:border-blue-700 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            onChange={handleChange}
-            placeholder="Add a new comment"
-        ></textarea>
+            <textarea
+                id="body"
+                rows="1"
+                name="body"
+                value={request.body}
+                className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md focus:border-blue-700
+                focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                onChange={handleChange}
+                placeholder="Add a new comment"
+            ></textarea>
                 <div className="flex justify-end w-full">
                     <button
                         className={submitButtonClasses.join(" ")}
@@ -98,5 +100,5 @@ export default function CreateComment(props) {
             {loading && <LoadingModal />}
             {error && <ErrorNotification message={error} />}
         </>
-    );
+    )
 }

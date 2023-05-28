@@ -6,6 +6,7 @@ import Home from "./component/Home.jsx";
 import Login from "./component/Login.jsx";
 import RegistrationSuccessful from "./component/RegistrationSuccessful.jsx";
 import Profile from "./component/Profile.jsx";
+import PostDetail from "./component/PostDetail.jsx";
 
 export default function App() {
     return (
@@ -18,6 +19,7 @@ export default function App() {
                         <Route path="/authentication" element={<Login />}/>
                         <Route path="/registration-successful" element={<RegistrationSuccessful />}/>
                         <Route path="/profile" element={<Profile />}/>
+                        <Route path="/post" element={<PostDetail />}/>
                     </Routes>
                 </main>
                 <Footer/>

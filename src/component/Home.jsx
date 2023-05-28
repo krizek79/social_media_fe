@@ -13,29 +13,15 @@ export default function Home() {
     const navigate = useNavigate()
 
     function addNewPost(newPost) {
-        setPosts([newPost, ...posts]);
-    }
-
-    function deletePost(postId) {
-        setPosts(posts.filter(post => post.id !== postId))
-    }
-
-    function updatePost(updatedPost) {
-        setPosts(posts.map(post => {
-            if (post.id === updatedPost.id) {
-                return updatedPost;
-            } else {
-                return post;
-            }
-        }))
+        setPosts([newPost, ...posts])
     }
 
     useEffect(() => {
         if (!localStorage.getItem("authenticationToken")) {
             navigate("/authentication")
         }
-        document.body.classList.remove('overflow-hidden')
         setLoading(true)
+
         postService.getAllPosts()
             .then(response => {
                 const reversedPosts = response.data.reverse()
@@ -44,7 +30,6 @@ export default function Home() {
             })
             .catch(e => {
                 if (e.response.status === 401) {
-                    console.log("401 Unauthorized")
                     authService.logout()
                     navigate("/authentication")
                 } else {
@@ -73,8 +58,6 @@ export default function Home() {
                                     owner={post.owner}
                                     body={post.body}
                                     createdAt={post.createdAt}
-                                    deletePost={deletePost}
-                                    updatePost={updatePost}
                                 />
                             ))}
                         </div>
