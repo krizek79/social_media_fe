@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import LoadingModal from "./LoadingModal.jsx";
-import ErrorNotification from "./ErrorNotification.jsx";
 import commentService from "../service/CommentService.js";
 
 export default function CreateComment(props) {
+
     const [request, setRequest] = useState({
         postId: props.postId,
-        parentComment: props.parentComment,
+        parentCommentId: props.parentCommentId,
         body: ""
     })
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
     const [isBodyValid, setIsBodyValid] = useState(false)
 
     function validateBody(body) {
@@ -27,14 +26,12 @@ export default function CreateComment(props) {
     }
 
     function createComment() {
-        setError(null);
         if (!validateBody(request.body)) {
             return
         }
 
-        setLoading(true);
-        commentService
-            .createComment(request)
+        setLoading(true)
+        commentService.createComment(request)
             .then(response => {
                 props.addNewComment(response.data)
                 setRequest({ ...request, body: "" })
@@ -42,9 +39,9 @@ export default function CreateComment(props) {
                 setLoading(false)
             })
             .catch(e => {
-                setError(e.response.data.message)
+                console.log(e)
                 setLoading(false)
-            });
+            })
     }
 
     const submitButtonClasses = [
@@ -98,7 +95,6 @@ export default function CreateComment(props) {
                 </div>
             </div>
             {loading && <LoadingModal />}
-            {error && <ErrorNotification message={error} />}
         </>
     )
 }

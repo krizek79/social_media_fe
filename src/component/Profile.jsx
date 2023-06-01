@@ -98,6 +98,7 @@ export default function Profile() {
                                 owner={post.owner}
                                 body={post.body}
                                 createdAt={post.createdAt}
+                                numberOfComments={post.numberOfComments}
                                 deletePost={deletePost}
                                 updatePost={updatePost}
                             />

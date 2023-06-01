@@ -58,6 +58,7 @@ export default function Home() {
                                     owner={post.owner}
                                     body={post.body}
                                     createdAt={post.createdAt}
+                                    numberOfComments={post.numberOfComments}
                                 />
                             ))}
                         </div>
