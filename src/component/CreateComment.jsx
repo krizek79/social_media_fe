@@ -75,7 +75,6 @@ export default function CreateComment(props) {
         <>
             <div className="p-3 border rounded mb-3">
             <textarea
-                id="body"
                 rows="1"
                 name="body"
                 value={request.body}
