@@ -81,7 +81,7 @@ export default function CreateComment(props) {
                 className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md focus:border-blue-700
                 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 onChange={handleChange}
-                placeholder="Add a new comment"
+                placeholder="Write a new comment"
             ></textarea>
                 <div className="flex justify-end w-full">
                     <button

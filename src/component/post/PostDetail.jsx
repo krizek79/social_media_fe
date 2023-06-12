@@ -42,7 +42,6 @@ export default function PostDetail() {
     }, [postId])
 
     function updatePost() {
-        setLoading(true)
         postService.updatePost(postId, postUpdateRequest)
             .then(response => {
                 if (response.status === 200) {
@@ -55,7 +54,6 @@ export default function PostDetail() {
                 }
             })
             .catch(e => {
-                setLoading(false)
                 if (e.response.status === 401) {
                     navigate("/authentication")
                 }
@@ -64,16 +62,13 @@ export default function PostDetail() {
     }
 
     function deletePost() {
-        setLoading(true)
         postService.deletePost(postId)
             .then(response => {
                 if (response.status === 200) {
-                    setLoading(false)
                     navigate("/")
                 }
             })
             .catch(e => {
-                setLoading(false)
                 if (e.response.status === 401) {
                     navigate("/authentication")
                 }
