@@ -55,6 +55,28 @@ export default function Header() {
                                                 My profile
                                             </button>
                                         </li>
+                                        <li className="px-6 py-6 flex flex-col gap-y-6 hover:bg-gray-100 duration-300">
+                                            <button
+                                                className="w-full text-left"
+                                                onClick={() => {
+                                                    toggleMenu()
+                                                    navigate("/")
+                                                }}
+                                            >
+                                                Home
+                                            </button>
+                                        </li>
+                                        <li className="px-6 py-6 flex flex-col gap-y-6 hover:bg-gray-100 duration-300">
+                                            <button
+                                                className="w-full text-left"
+                                                onClick={() => {
+                                                    toggleMenu()
+                                                    navigate("/")
+                                                }}
+                                            >
+                                                Explore
+                                            </button>
+                                        </li>
                                     </ul>
                                     <div
                                         className="px-6 py-6 text-xl font-medium w-full border-t hover:bg-gray-100
