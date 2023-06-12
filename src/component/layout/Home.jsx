@@ -1,10 +1,10 @@
-import CreatePost from "./CreatePost.jsx"
-import Post from "./Post.jsx"
+import CreatePost from "../post/CreatePost.jsx"
+import Post from "../post/Post.jsx"
 import React, {useEffect, useState} from "react"
-import postService from "../service/PostService.js"
+import postService from "../../service/PostService.js"
 import {useNavigate} from "react-router-dom";
-import authService from "../service/AuthService.js";
-import LoadingModal from "./LoadingModal";
+import authService from "../../service/AuthService.js";
+import LoadingModal from "../util/LoadingModal.jsx";
 
 export default function Home() {
 
@@ -54,11 +54,7 @@ export default function Home() {
                             {posts.map(post => (
                                 <Post
                                     key={post.id}
-                                    id={post.id}
-                                    owner={post.owner}
-                                    body={post.body}
-                                    createdAt={post.createdAt}
-                                    numberOfComments={post.numberOfComments}
+                                    post={post}
                                 />
                             ))}
                         </div>

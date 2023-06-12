@@ -1,9 +1,9 @@
 import React, {useState} from "react"
 import RegistrationModal from "./RegistrationModal.jsx"
-import authService from "../service/AuthService.js"
+import authService from "../../service/AuthService.js"
 import {useNavigate} from "react-router-dom"
-import LoadingModal from "./LoadingModal";
-import ErrorNotification from "./ErrorNotification";
+import LoadingModal from "../util/LoadingModal.jsx";
+import ErrorNotification from "../util/ErrorNotification.jsx";
 
 export default function Login() {
 

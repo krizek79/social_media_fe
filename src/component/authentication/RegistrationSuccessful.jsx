@@ -15,7 +15,7 @@ export default function RegistrationSuccessful() {
                     <div>You can now sign in {" "}
                         <a
                             className="cursor-pointer text-blue-600"
-                            onClick={() => navigate("/")}
+                            onClick={() => navigate("/authentication")}
                         >
                             here
                         </a>

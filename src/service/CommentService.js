@@ -43,12 +43,4 @@ export default new class CommentService {
             }
         })
     }
-
-    getAllPostsByUsername(username) {
-        return axios.get(POST_API_BASE_URL + "?username=" + username, {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("authenticationToken")
-            }
-        })
-    }
 }

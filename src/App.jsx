@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "./component/Header.jsx";
-import Footer from "./component/Footer.jsx";
-import Home from "./component/Home.jsx";
-import Login from "./component/Login.jsx";
-import RegistrationSuccessful from "./component/RegistrationSuccessful.jsx";
-import Profile from "./component/Profile.jsx";
-import PostDetail from "./component/PostDetail.jsx";
+import Header from "./component/layout/Header.jsx";
+import Footer from "./component/layout/Footer.jsx";
+import Home from "./component/layout/Home.jsx";
+import Login from "./component/authentication/Login.jsx";
+import RegistrationSuccessful from "./component/authentication/RegistrationSuccessful.jsx";
+import Profile from "./component/user/Profile.jsx";
+import PostDetail from "./component/post/PostDetail.jsx";
 
 export default function App() {
     return (

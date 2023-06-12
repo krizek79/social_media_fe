@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import authService from "../service/AuthService.js";
+import authService from "../../service/AuthService.js";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
@@ -21,12 +21,12 @@ export default function Header() {
         <>
             <header className="w-full flex py-6 px-10 bg-white shadow-md items-center justify-between top-0">
                 <div className="flex flex-col">
-                    <h1
+                    <a
                         className="text-blue-700 text-2xl cursor-pointer"
-                        onClick={() => navigate("/")}
+                        href={"/"}
                     >
                         Social Media
-                    </h1>
+                    </a>
                     {localStorage.getItem("authenticationToken") && (
                         <span>Hello, {localStorage.getItem("username")}</span>
                     )}

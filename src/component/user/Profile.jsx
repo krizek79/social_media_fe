@@ -1,10 +1,10 @@
-import appUserService from "../service/AppUserService.js"
+import appUserService from "../../service/AppUserService.js"
 import React, {useEffect, useState} from "react"
-import LoadingModal from "./LoadingModal.jsx";
+import LoadingModal from "../util/LoadingModal.jsx";
 import {useNavigate} from "react-router-dom";
-import postService from "../service/PostService.js";
-import Post from "./Post.jsx";
-import CreatePost from "./CreatePost.jsx";
+import postService from "../../service/PostService.js";
+import Post from "../post/Post.jsx";
+import CreatePost from "../post/CreatePost.jsx";
 
 export default function Profile() {
 
@@ -20,20 +20,6 @@ export default function Profile() {
         avatarUrl: null
     })
     const [posts, setPosts] = useState([])
-
-    function deletePost(postId) {
-        setPosts(posts.filter(post => post.id !== postId))
-    }
-
-    function updatePost(updatedPost) {
-        setPosts(posts.map(post => {
-            if (post.id === updatedPost.id) {
-                return updatedPost;
-            } else {
-                return post;
-            }
-        }))
-    }
 
     useEffect(() => {
         setLoading(true)
@@ -94,13 +80,7 @@ export default function Profile() {
                         {posts.map(post => (
                             <Post
                                 key={post.id}
-                                id={post.id}
-                                owner={post.owner}
-                                body={post.body}
-                                createdAt={post.createdAt}
-                                numberOfComments={post.numberOfComments}
-                                deletePost={deletePost}
-                                updatePost={updatePost}
+                                post={post}
                             />
                         ))}
                         {posts.length === 0 && (
