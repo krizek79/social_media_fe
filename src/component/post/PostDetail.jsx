@@ -50,7 +50,6 @@ export default function PostDetail() {
                     })
                     setPost(response.data)
                     toggleEdit()
-                    setLoading(false)
                 }
             })
             .catch(e => {
@@ -178,7 +177,7 @@ export default function PostDetail() {
                                     src={post.owner.avatarUrl}
                                     alt={"User avatar..."}
                                     className="rounded object-scale-down h-12 w-12 hover:cursor-pointer
-                                hover:grayscale-[50%] duration-300"
+                                    hover:grayscale-[50%] duration-300"
                                     onClick={() => navigate("/profile?username=" + post.owner.username)}
                                 />
                                 <div

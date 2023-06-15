@@ -58,6 +58,11 @@ export default function Home() {
                                 />
                             ))}
                         </div>
+                        <div className="flex w-full justify-center mt-6 mb-3">
+                            <button className="text-blue-500 hover:underline">
+                                Show more
+                            </button>
+                        </div>
                     </section>
                 )}
             </div>

@@ -43,52 +43,38 @@ export default function Header() {
                             <>
                                 <div className="fixed z-50 bottom-0 top-0 left-0 bg-white px-3 w-2/3 md:w-1/4">
                                     <ul className="text-xl font-medium w-full">
-                                        <li className="px-6 py-6 flex flex-col gap-y-6 hover:bg-gray-100 duration-300">
-                                            <button
-                                                className="w-full text-left"
-                                                onClick={() => {
-                                                    toggleMenu()
-                                                    navigate("/profile?username="
-                                                        + localStorage.getItem("username"))
-                                                }}
+                                        <li className="flex flex-col gap-y-6 hover:bg-gray-100 duration-300">
+                                            <a
+                                                href={"/profile?username=" + localStorage.getItem("username")}
+                                                className="w-full text-left px-6 py-6"
                                             >
                                                 My profile
-                                            </button>
+                                            </a>
                                         </li>
-                                        <li className="px-6 py-6 flex flex-col gap-y-6 hover:bg-gray-100 duration-300">
-                                            <button
-                                                className="w-full text-left"
-                                                onClick={() => {
-                                                    toggleMenu()
-                                                    navigate("/")
-                                                }}
+                                        <li className="flex flex-col gap-y-6 hover:bg-gray-100 duration-300">
+                                            <a
+                                                href={"/"}
+                                                className="w-full text-left px-6 py-6"
                                             >
                                                 Home
-                                            </button>
+                                            </a>
                                         </li>
-                                        <li className="px-6 py-6 flex flex-col gap-y-6 hover:bg-gray-100 duration-300">
-                                            <button
-                                                className="w-full text-left"
-                                                onClick={() => {
-                                                    toggleMenu()
-                                                    navigate("/")
-                                                }}
+                                        <li className="flex flex-col gap-y-6 hover:bg-gray-100 duration-300">
+                                            <a
+                                                href={"/explore"}
+                                                className="w-full text-left px-6 py-6"
                                             >
                                                 Explore
-                                            </button>
+                                            </a>
                                         </li>
                                     </ul>
-                                    <div
+                                    <button
                                         className="px-6 py-6 text-xl font-medium w-full border-t hover:bg-gray-100
-                                        duration-300"
+                                        duration-300 text-left"
+                                        onClick={logout}
                                     >
-                                        <button
-                                            className="w-full text-left"
-                                            onClick={logout}
-                                        >
-                                            Logout
-                                        </button>
-                                    </div>
+                                        Logout
+                                    </button>
                                 </div>
                                 <div className="opacity-75 fixed inset-0 z-40 bg-black" onClick={toggleMenu}></div>
                             </>
