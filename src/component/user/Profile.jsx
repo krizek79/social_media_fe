@@ -5,19 +5,27 @@ import {useNavigate} from "react-router-dom";
 import postService from "../../service/PostService.js";
 import Post from "../post/Post.jsx";
 import CreatePost from "../post/CreatePost.jsx";
+import FollowButton from "./FollowButton.jsx";
 
 export default function Profile() {
 
     const navigate = useNavigate()
     const urlParams = new URLSearchParams(window.location.search)
     const username = urlParams.get("username")
+    const [isEditable, setIsEditable] = useState(false)
     const [loading, setLoading] = useState(true)
     const [profileData, setProfileData] = useState({
         id: null,
         username: null,
         email: null,
         bio: null,
-        avatarUrl: null
+        avatarUrl: null,
+        followers: [],
+        following: []
+    })
+    const [followStats, setFollowStats] = useState({
+        numberOfFollowers: 0,
+        numberOfFollowing: 0
     })
     const [posts, setPosts] = useState([])
 
@@ -50,12 +58,25 @@ export default function Profile() {
             })
     }, [username])
 
+    useEffect(() => {
+        setFollowStats({
+            numberOfFollowers: profileData.followers.length,
+            numberOfFollowing: profileData.following.length
+        })
+    }, [profileData.followers, profileData.following])
+
+    function updateNumberOfFollowers(amount) {
+        setFollowStats({
+            ...followStats, numberOfFollowers: followStats.numberOfFollowers + amount
+        })
+    }
+
     function addNewPost(newPost) {
         setPosts([newPost, ...posts])
     }
 
     function toggleEdit() {
-
+        setIsEditable(!isEditable)
     }
 
     function updateProfile() {
@@ -77,35 +98,67 @@ export default function Profile() {
                         />
                         <div className="flex items-end">
                             {profileData.username !== localStorage.getItem("username") ? (
-                                <button className="border-2 border-black py-1.5 px-6 rounded-lg text-white bg-black">
-                                    Follow
-                                </button>
+                                <FollowButton
+                                    profileData={profileData}
+                                    updateNumberOfFollowers={updateNumberOfFollowers}
+                                />
                             ) : (
-                                <button
-                                    className="hover:text-violet-500"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                    </svg>
-                                </button>
+                                <>
+                                    {isEditable ? (
+                                        <div className="flex gap-x-3">
+                                            <button
+                                                className="hover:text-green-500"
+                                            >
+                                                <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
+                                                </svg>
+                                            </button>
+                                            <button
+                                                className="hover:text-red-500"
+                                                onClick={toggleEdit}
+                                            >
+                                                <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            className="hover:text-violet-500"
+                                            onClick={toggleEdit}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                            </svg>
+                                        </button>
+                                    )}
+                                </>
                             )}
                         </div>
                     </div>
                     <div className="flex flex-col w-full">
-                        <h1 className="font-medium text-3xl">{profileData.username}</h1>
-                        <span className="text-md">{profileData.email}</span>
-                        <p className="font-thin py-3 italic">{profileData.bio}</p>
+                        {isEditable ? (
+                            <>
+                                ...
+                            </>
+                        ) : (
+                            <>
+                                <h1 className="font-medium text-3xl">{profileData.username}</h1>
+                                <span className="text-md">{profileData.email}</span>
+                                <p className="font-thin py-3 italic">{profileData.bio}</p>
+                            </>
+                        )}
                         <div className="flex gap-x-3 flex-wrap">
                             <span>
-                                <span className="font-bold">0</span> Following
+                                <span className="font-bold">{followStats.numberOfFollowing}</span> Following
                             </span>
                             <span>
-                                <span className="font-bold">0</span> Followers
+                                <span className="font-bold">{followStats.numberOfFollowers}</span> Followers
                             </span>
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col py-6">
+                <div className="flex flex-col gap-y-3 mt-3">
                     {localStorage.getItem("username") === username && (
                         <CreatePost addNewPost={addNewPost}/>
                     )}

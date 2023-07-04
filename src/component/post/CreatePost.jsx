@@ -4,6 +4,7 @@ import LoadingModal from "../util/LoadingModal.jsx";
 import ErrorNotification from "../util/ErrorNotification.jsx";
 
 export default function CreatePost(props) {
+
     const [request, setRequest] = useState({
         body: ""
     });
@@ -74,7 +75,7 @@ export default function CreatePost(props) {
 
     return (
         <>
-            <div className="p-5 border rounded mb-3">
+            <div className="p-3 border rounded">
                 <textarea
                     id="body"
                     rows="4"

@@ -48,7 +48,7 @@ export default function Home() {
                 {loading ? (
                     <LoadingModal/>
                 ) : (
-                    <section className="flex-col">
+                    <section className="flex flex-col gap-y-3">
                         <CreatePost addNewPost={addNewPost}/>
                         <div className="flex flex-col gap-y-3">
                             {posts.map(post => (

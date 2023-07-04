@@ -73,7 +73,7 @@ export default function Comment(props) {
                 <img
                     src={props.comment.author.avatarUrl}
                     alt="User avatar..."
-                    className="rounded object-scale-down h-10 w-10 hover:cursor-pointer hover:grayscale-[50%]
+                    className="rounded-full object-scale-down h-10 w-10 hover:cursor-pointer hover:grayscale-[50%]
                     duration-300"
                     onClick={() => navigate(`/profile?username=${props.comment.author.username}`)}
                 />

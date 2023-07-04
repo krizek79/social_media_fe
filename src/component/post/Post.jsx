@@ -26,14 +26,14 @@ export default function Post(props) {
     return (
         <>
             <div
-                className="p-5 border rounded hover:cursor-pointer hover:bg-gray-100"
+                className="px-3 py-3 border rounded hover:cursor-pointer hover:bg-gray-100"
                 onClick={() => navigate("/post?id=" + props.post.id)}
             >
                 <div className="border-solid border-0 border-b border-blue-600 pb-2 flex flex-row gap-x-3">
                     <img
                         src={props.post.owner.avatarUrl}
                         alt="Profile picture"
-                        className="rounded object-scale-down h-12 w-12 hover:cursor-pointer hover:grayscale-[50%]
+                        className="rounded-full object-scale-down h-12 w-12 hover:cursor-pointer hover:grayscale-[50%]
                         duration-200"
                         onClick={(e) => {
                             e.stopPropagation()

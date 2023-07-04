@@ -124,7 +124,7 @@ export default function PostDetail() {
                 <main className="bg-gradient-to-b from-gray-900 to-gray-700 flex">
                     <div
                         className="flex-col overflow-y-auto mx-auto w-11/12 md:w-3/5 m-6 py-6 px-3 bg-white rounded
-                    shadow-md md:p-6"
+                        shadow-md md:p-6"
                     >
                         {post.owner.username === localStorage.getItem("username")
                         || localStorage.getItem("role") === "ADMIN" ? (
@@ -176,7 +176,7 @@ export default function PostDetail() {
                                 <img
                                     src={post.owner.avatarUrl}
                                     alt={"User avatar..."}
-                                    className="rounded object-scale-down h-12 w-12 hover:cursor-pointer
+                                    className="rounded-full object-scale-down h-12 w-12 hover:cursor-pointer
                                     hover:grayscale-[50%] duration-300"
                                     onClick={() => navigate("/profile?username=" + post.owner.username)}
                                 />
@@ -201,8 +201,8 @@ export default function PostDetail() {
                                 value={postUpdateRequest.body}
                                 onChange={handleChange}
                                 className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md
-                            focus:border-blue-700 focus:ring-blue-300 focus:outline-none focus:ring
-                            focus:ring-opacity-40"
+                                focus:border-blue-700 focus:ring-blue-300 focus:outline-none focus:ring
+                                focus:ring-opacity-40"
                                 rows={4}
                             >
                             {postUpdateRequest.body}
