@@ -1,13 +1,11 @@
 import authService from "../../service/AuthService.js"
 import React, {useState} from "react";
-import LoadingModal from "../util/LoadingModal.jsx";
 import ErrorNotification from "../util/ErrorNotification.jsx";
 import {useNavigate} from "react-router-dom";
 
 export default function RegistrationModal(props) {
 
     const toggleModal = props.action
-    const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const navigate = useNavigate()
     const [registrationRequest, setRegistrationRequest] = useState({
@@ -90,7 +88,7 @@ export default function RegistrationModal(props) {
         let matchingPasswordValid = validateMatchingPassword(
             registrationRequest.matchingPassword,
             registrationRequest.password
-        );
+        )
         if (!emailValid
             || !usernameValid
             || !passwordValid
@@ -99,18 +97,14 @@ export default function RegistrationModal(props) {
             return
         }
 
-        setLoading(true)
         return authService.register(registrationRequest)
-            .then(response => {
-                console.log(response)
-                setLoading(false)
+            .then(() => {
                 toggleModal()
                 navigate("/registration-successful")
             })
             .catch(e => {
                 console.log(e.response.status + ": " + e.response.data.message)
                 setError(e.response.data.message)
-                setLoading(false)
             })
     }
 
@@ -226,10 +220,6 @@ export default function RegistrationModal(props) {
                 </div>
             </div>
             <div className="opacity-75 fixed inset-0 z-40 bg-black"></div>
-
-            {loading && (
-                <LoadingModal/>
-            )}
 
             {error && (
                 <ErrorNotification message={error}/>

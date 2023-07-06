@@ -1,6 +1,5 @@
 import postService from "../../service/PostService.js";
 import React, { useState } from "react";
-import LoadingModal from "../util/LoadingModal.jsx";
 import ErrorNotification from "../util/ErrorNotification.jsx";
 
 export default function CreatePost(props) {
@@ -8,7 +7,6 @@ export default function CreatePost(props) {
     const [request, setRequest] = useState({
         body: ""
     });
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [isBodyValid, setIsBodyValid] = useState(false);
 
@@ -31,18 +29,14 @@ export default function CreatePost(props) {
             return
         }
 
-        setLoading(true)
-        postService
-            .createPost(request)
+        postService.createPost(request)
             .then(response => {
                 props.addNewPost(response.data)
                 setRequest({ ...request, body: "" })
                 setIsBodyValid(false)
-                setLoading(false)
             })
             .catch(e => {
                 setError(e.response.data.message)
-                setLoading(false)
             })
     }
 
@@ -97,7 +91,6 @@ export default function CreatePost(props) {
                 </div>
             </div>
 
-            {loading && <LoadingModal />}
             {error && <ErrorNotification message={error} />}
         </>
     )

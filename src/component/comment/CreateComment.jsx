@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import LoadingModal from "../util/LoadingModal.jsx";
 import commentService from "../../service/CommentService.js";
 
 export default function CreateComment(props) {
@@ -9,7 +8,6 @@ export default function CreateComment(props) {
         parentCommentId: props.parentCommentId,
         body: ""
     })
-    const [loading, setLoading] = useState(false)
     const [isBodyValid, setIsBodyValid] = useState(false)
 
     function validateBody(body) {
@@ -30,17 +28,14 @@ export default function CreateComment(props) {
             return
         }
 
-        setLoading(true)
         commentService.createComment(request)
             .then(response => {
                 props.addNewComment(response.data)
                 setRequest({ ...request, body: "" })
                 setIsBodyValid(false)
-                setLoading(false)
             })
             .catch(e => {
                 console.log(e)
-                setLoading(false)
             })
     }
 
@@ -93,7 +88,6 @@ export default function CreateComment(props) {
                     </button>
                 </div>
             </div>
-            {loading && <LoadingModal />}
         </>
     )
 }

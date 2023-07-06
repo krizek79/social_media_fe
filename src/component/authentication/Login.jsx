@@ -2,14 +2,12 @@ import React, {useState} from "react"
 import RegistrationModal from "./RegistrationModal.jsx"
 import authService from "../../service/AuthService.js"
 import {useNavigate} from "react-router-dom"
-import LoadingModal from "../util/LoadingModal.jsx";
 import ErrorNotification from "../util/ErrorNotification.jsx";
 
 export default function Login() {
 
     const navigate = useNavigate()
     const [registrationModal, setRegistrationModal] = useState(false)
-    const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [loginRequest, setLoginRequest] = useState({
         usernameOrEmail: "",
@@ -59,7 +57,6 @@ export default function Login() {
             return
         }
 
-        setLoading(true)
         authService.login(loginRequest)
             .then(response => {
                 if (response.data.authenticationToken) {
@@ -68,7 +65,6 @@ export default function Login() {
                     localStorage.setItem("avatarUrl", response.data.avatarUrl)
                     localStorage.setItem("role", response.data.role)
                 }
-                setLoading(false)
                 navigate("/")
             })
             .catch(e => {
@@ -78,7 +74,6 @@ export default function Login() {
                     console.log(e.response.status + ": " + e.response.data.message)
                     setError(e.response.data.message)
                 }
-                setLoading(false)
             })
     }
 
@@ -157,10 +152,6 @@ export default function Login() {
 
             {error && (
                 <ErrorNotification message={error}/>
-            )}
-
-            {loading && (
-                <LoadingModal/>
             )}
         </main>
     )

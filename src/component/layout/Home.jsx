@@ -1,43 +1,22 @@
-import CreatePost from "../post/CreatePost.jsx"
-import Post from "../post/Post.jsx"
-import React, {useEffect, useState} from "react"
-import postService from "../../service/PostService.js"
-import {useNavigate} from "react-router-dom";
-import authService from "../../service/AuthService.js";
-import LoadingModal from "../util/LoadingModal.jsx";
+import CreatePost from "../post/CreatePost.jsx";
+import Post from "../post/Post.jsx";
+import React, { useState } from "react";
+import Loading from "../util/Loading.jsx";
+import useHome from "./useHome.js";
+import ShowMoreButton from "../util/ShowMoreButton.jsx";
 
 export default function Home() {
 
-    const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(true)
-    const navigate = useNavigate()
+    const [page, setPage] = useState(0)
+    const { loading, posts, hasMore, updatePosts } = useHome(page)
 
     function addNewPost(newPost) {
-        setPosts([newPost, ...posts])
+        updatePosts([newPost])
     }
 
-    useEffect(() => {
-        if (!localStorage.getItem("authenticationToken")) {
-            navigate("/authentication")
-        }
-        setLoading(true)
-
-        postService.getAllPosts()
-            .then(response => {
-                const reversedPosts = response.data.reverse()
-                setPosts(reversedPosts)
-                setLoading(false)
-            })
-            .catch(e => {
-                if (e.response.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
-                } else {
-                    console.log(e.response.status + ": " + e.response.data.message)
-                }
-                setLoading(false)
-            })
-    }, [])
+    function handleShowMore() {
+        setPage((prevPageNumber) => prevPageNumber + 1)
+    }
 
     return (
         <main className="bg-gradient-to-b from-gray-900 to-gray-700 flex">
@@ -45,27 +24,26 @@ export default function Home() {
                 className="flex-col overflow-y-auto mx-auto w-11/12 md:w-3/5 m-6 px-1 py-6 bg-white rounded shadow-md
                 md:p-6"
             >
-                {loading ? (
-                    <LoadingModal/>
-                ) : (
-                    <section className="flex flex-col gap-y-3">
-                        <CreatePost addNewPost={addNewPost}/>
-                        <div className="flex flex-col gap-y-3">
-                            {posts.map(post => (
-                                <Post
-                                    key={post.id}
-                                    post={post}
-                                />
-                            ))}
-                        </div>
-                        <div className="flex w-full justify-center mt-6 mb-3">
-                            <button className="text-blue-500 hover:underline">
-                                Show more
-                            </button>
-                        </div>
-                    </section>
-                )}
+                <section className="flex flex-col gap-y-3">
+                    <CreatePost addNewPost={addNewPost} />
+                    <div className="flex flex-col gap-y-3">
+                        {posts.length === 0 && !loading && (
+                            <span className="w-full text-center font-light text-sm md:text-lg">
+                                There is nothing to show
+                            </span>
+                        )}
+                        {posts.map((post) => (
+                            <Post key={post.id} post={post} />
+                        ))}
+                        {hasMore && (
+                            <ShowMoreButton handleShowMore={handleShowMore}/>
+                        )}
+                        {loading && (
+                            <Loading/>
+                        )}
+                    </div>
+                </section>
             </div>
         </main>
-    )
+    );
 }

@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import postService from "../../service/PostService.js";
 import authService from "../../service/AuthService.js";
 import {useNavigate} from "react-router-dom";
-import LoadingModal from "../util/LoadingModal.jsx";
 import CommentSection from "../comment/CommentSection.jsx";
 import PostLikeButton from "./PostLikeButton.jsx";
+import Loading from "../util/Loading.jsx";
 
 export default function PostDetail() {
 
@@ -18,11 +18,6 @@ export default function PostDetail() {
     })
 
     useEffect(() => {
-        if (!localStorage.getItem("authenticationToken")) {
-            authService.logout()
-            navigate("/authentication")
-        }
-
         postService.getPostById(postId)
             .then(response => {
                 if (response.status === 200) {
@@ -119,7 +114,7 @@ export default function PostDetail() {
     return (
         <>
             {!post ? (
-                <LoadingModal/>
+                <Loading/>
             ) : (
                 <main className="bg-gradient-to-b from-gray-900 to-gray-700 flex">
                     <div

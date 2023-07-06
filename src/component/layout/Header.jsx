@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import authService from "../../service/AuthService.js";
 import { useNavigate } from "react-router-dom";
 
@@ -6,6 +6,12 @@ export default function Header() {
 
     const navigate = useNavigate()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+    useEffect(() => {
+        if (!localStorage.getItem("authenticationToken")) {
+            navigate("/authentication")
+        }
+    }, [])
 
     function logout() {
         authService.logout()
