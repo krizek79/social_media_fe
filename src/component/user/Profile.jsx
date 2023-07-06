@@ -8,6 +8,7 @@ import ShowMoreButton from "../util/ShowMoreButton.jsx";
 
 export default function Profile() {
 
+    const userData = JSON.parse(localStorage.getItem("user"))
     const [page, setPage] = useState(0)
     const {
         profileData,
@@ -45,7 +46,7 @@ export default function Profile() {
                                     className="rounded-full h-32 w-32 hover:cursor-pointer hover:grayscale-[50%] duration-300"
                                 />
                                 <div className="flex items-end">
-                                    {profileData.username !== localStorage.getItem("username") ? (
+                                    {profileData.username !== userData.username ? (
                                         <FollowButton
                                             profileData={profileData}
                                             updateNumberOfFollowers={updateNumberOfFollowers}
@@ -79,7 +80,7 @@ export default function Profile() {
                             </div>
                         </div>
                         <div className="flex flex-col gap-y-3 mt-3">
-                            {localStorage.getItem("username") === profileData.username && (
+                            {userData.username === profileData.username && (
                                 <CreatePost addNewPost={addNewPost}/>
                             )}
                             <div className="flex flex-col gap-y-3">

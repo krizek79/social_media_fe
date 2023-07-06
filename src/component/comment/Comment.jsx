@@ -8,6 +8,7 @@ import CommentLikeButton from "./CommentLikeButton.jsx";
 export default function Comment(props) {
 
     const navigate = useNavigate()
+    const userData = JSON.parse(localStorage.getItem("user"))
     const [showCreateComment, setShowCreateComment] = useState(false)
     const [showChildComments, setShowChildComments] = useState(false)
     const [childComments, setChildComments] = useState(props.comment.childComments || [])
@@ -116,8 +117,7 @@ export default function Comment(props) {
                         Reply
                     </button>
                 </div>
-                {props.comment.author.username === localStorage.getItem("username") ||
-                localStorage.getItem("role") === "ADMIN" ? (
+                {props.comment.author.username === userData.username || userData.role === "ADMIN" ? (
                     <div>
                         <button className="hover:text-red-500" onClick={deleteComment}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

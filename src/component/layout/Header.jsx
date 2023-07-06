@@ -6,6 +6,7 @@ export default function Header() {
 
     const navigate = useNavigate()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const userData = JSON.parse(localStorage.getItem("user"))
 
     useEffect(() => {
         if (!localStorage.getItem("authenticationToken")) {
@@ -34,13 +35,13 @@ export default function Header() {
                         Social Media
                     </a>
                     {localStorage.getItem("authenticationToken") && (
-                        <span>Hello, {localStorage.getItem("username")}</span>
+                        <span>Hello, {userData.username}</span>
                     )}
                 </div>
                 {localStorage.getItem("authenticationToken") && (
                     <>
                         <img
-                            src={localStorage.getItem("avatarUrl")}
+                            src={userData.avatarUrl}
                             alt={"Profile picture"}
                             className="rounded-full h-12 w-12 object-scale-down hover:cursor-pointer"
                             onClick={toggleMenu}
@@ -51,7 +52,7 @@ export default function Header() {
                                     <ul className="text-xl font-medium w-full">
                                         <li className="flex flex-col gap-y-6 hover:bg-gray-100 duration-300">
                                             <a
-                                                href={"/profile?username=" + localStorage.getItem("username")}
+                                                href={`/profile?username=${userData.username}`}
                                                 className="w-full text-left px-6 py-6"
                                             >
                                                 My profile

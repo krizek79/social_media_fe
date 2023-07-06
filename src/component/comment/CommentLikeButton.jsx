@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 export default function CommentLikeButton(props) {
 
     const navigate = useNavigate()
+    const userData = JSON.parse(localStorage.getItem("user"))
     const [numberOfLikes, setNumberOfLikes] = useState(props.comment.likes.length)
     const [likedByCurrentUser, setLikedByCurrentUser] = useState(
-        props.comment.likes.some((like) => like.username === localStorage.getItem("username")))
+        props.comment.likes.some((like) => like.username === userData.username))
 
     function handleLike(commentId) {
         if (likedByCurrentUser) {

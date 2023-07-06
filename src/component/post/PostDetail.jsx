@@ -8,6 +8,7 @@ import Loading from "../util/Loading.jsx";
 
 export default function PostDetail() {
 
+    const userData = JSON.parse(localStorage.getItem("user"))
     const urlParams = new URLSearchParams(window.location.search)
     const postId = urlParams.get("id")
     const navigate = useNavigate()
@@ -121,8 +122,7 @@ export default function PostDetail() {
                         className="flex-col overflow-y-auto mx-auto w-11/12 md:w-3/5 m-6 py-6 px-3 bg-white rounded
                         shadow-md md:p-6"
                     >
-                        {post.owner.username === localStorage.getItem("username")
-                        || localStorage.getItem("role") === "ADMIN" ? (
+                        {post.owner.username === userData.username || userData.role === "ADMIN" ? (
                             <div className="justify-end w-full flex flex-row gap-x-3 pt-3">
                                 {isEditable ? (
                                     <div className="flex flex-row gap-x-3">

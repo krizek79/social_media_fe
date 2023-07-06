@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 export default function PostLikeButton(props) {
 
     const navigate = useNavigate()
+    const userData = JSON.parse(localStorage.getItem("user"))
     const [numberOfLikes, setNumberOfLikes] = useState(props.post.likes.length)
     const [likedByCurrentUser, setLikedByCurrentUser] = useState(
-        props.post.likes.some((like) => like.username === localStorage.getItem("username")))
+        props.post.likes.some((like) => like.username === userData.username))
 
     function handleLike(postId) {
         if (likedByCurrentUser) {

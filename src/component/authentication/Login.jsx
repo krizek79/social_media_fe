@@ -59,12 +59,9 @@ export default function Login() {
 
         authService.login(loginRequest)
             .then(response => {
-                if (response.data.authenticationToken) {
-                    localStorage.setItem("authenticationToken", response.data.authenticationToken)
-                    localStorage.setItem("username", response.data.username)
-                    localStorage.setItem("avatarUrl", response.data.avatarUrl)
-                    localStorage.setItem("role", response.data.role)
-                }
+                localStorage.setItem("authenticationToken", response.data.authenticationToken)
+                localStorage.setItem("expiresAt", response.data.expiresAt)
+                localStorage.setItem("user", JSON.stringify(response.data.appUserResponse))
                 navigate("/")
             })
             .catch(e => {

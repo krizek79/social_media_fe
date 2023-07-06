@@ -14,8 +14,7 @@ export default new class AuthService {
 
     logout() {
         localStorage.removeItem("authenticationToken")
-        localStorage.removeItem("avatarUrl")
-        localStorage.removeItem("username")
-        localStorage.removeItem("role")
+        localStorage.removeItem("expiresAt")
+        localStorage.removeItem("user")
     }
 }
