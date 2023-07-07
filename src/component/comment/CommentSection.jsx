@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from "react";
-import commentService from "../../service/CommentService.js";
-import authService from "../../service/AuthService.js";
-import {useNavigate} from "react-router-dom";
-import CreateComment from "./CreateComment.jsx";
-import Comment from "./Comment.jsx";
+import React, {useContext, useEffect, useState} from "react"
+import commentService from "../../api/CommentApi.js"
+import CreateComment from "./CreateComment.jsx"
+import Comment from "./Comment.jsx"
+import {AuthContext} from "../security/AuthContext.js"
 
 export default function CommentSection(props) {
 
+    const { logout } = useContext(AuthContext)
     const postId = props.postId
     const [comments, setComments] = useState([])
-    const navigate = useNavigate()
 
     useEffect(() => {
         commentService.getAllCommentsByPostId(postId)
@@ -21,8 +20,7 @@ export default function CommentSection(props) {
             })
             .catch(e => {
                 if (e.response.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(e.response.status + ": " + e.response.data.message)
             })

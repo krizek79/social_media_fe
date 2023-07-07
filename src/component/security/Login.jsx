@@ -1,11 +1,13 @@
-import React, {useState} from "react"
+import React, {useContext, useState} from "react"
 import RegistrationModal from "./RegistrationModal.jsx"
-import authService from "../../service/AuthService.js"
+import authService from "../../api/AuthenticationApi.js"
 import {useNavigate} from "react-router-dom"
 import ErrorNotification from "../util/ErrorNotification.jsx";
+import {AuthContext} from "./AuthContext.js";
 
 export default function Login() {
 
+    const { login } = useContext(AuthContext)
     const navigate = useNavigate()
     const [registrationModal, setRegistrationModal] = useState(false)
     const [error, setError] = useState(null)
@@ -51,7 +53,7 @@ export default function Login() {
         setLoginRequest({ ...loginRequest, [e.target.name]: e.target.value })
     }
 
-    function login() {
+    function handleLogin() {
         setError(null)
         if (!validateUsernameOrEmail(loginRequest.usernameOrEmail) || !validatePassword(loginRequest.password)) {
             return
@@ -59,12 +61,11 @@ export default function Login() {
 
         authService.login(loginRequest)
             .then(response => {
-                localStorage.setItem("authenticationToken", response.data.authenticationToken)
-                localStorage.setItem("expiresAt", response.data.expiresAt)
-                localStorage.setItem("user", JSON.stringify(response.data.appUserResponse))
+                login(response.data)
                 navigate("/")
             })
             .catch(e => {
+                console.log(e)
                 if (e.response.status === 401) {
                     setError("Wrong credentials")
                 } else {
@@ -123,7 +124,7 @@ export default function Login() {
                                     className="w-full px-4 py-2 tracking-wide text-white transition-colors
                                     duration-200 transform bg-blue-700 rounded-md hover:bg-blue-600
                                     focus:outline-none focus:bg-blue-600"
-                                    onClick={login}
+                                    onClick={handleLogin}
                                 >
                                     Log in
                                 </button>

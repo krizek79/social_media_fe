@@ -1,16 +1,15 @@
-import React, {useEffect, useState} from "react"
-import followService from "../../service/FollowService.js"
-import authService from "../../service/AuthService.js"
-import {useNavigate} from "react-router-dom"
+import React, {useContext, useEffect, useState} from "react"
+import followService from "../../api/FollowApi.js"
+import {AuthContext} from "../security/AuthContext.js"
 
 export default function FollowButton(props) {
 
-    const navigate = useNavigate()
+    const { logout, getUser } = useContext(AuthContext)
     const [followedByCurrentUser, setFollowedByCurrentUser] = useState(false)
 
     useEffect(() => {
         const isFollowedByCurrentUser = props.profileData.followers.some(
-            follow => follow.follower === localStorage.getItem("username")
+            follow => follow.follower.username === getUser().username
         )
         setFollowedByCurrentUser(isFollowedByCurrentUser)
     }, [props.profileData.followers])
@@ -34,8 +33,7 @@ export default function FollowButton(props) {
             })
             .catch(e => {
                 if (e.response.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(e.response.status + ": " + e.response.data.message)
             })
@@ -52,8 +50,7 @@ export default function FollowButton(props) {
             })
             .catch(e => {
                 if (e.response.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(e.response.status + ": " + e.response.data.message)
             })
@@ -63,7 +60,9 @@ export default function FollowButton(props) {
         <>
             <button
                 className={`border-2 border-black py-1.5 px-6 rounded-lg 
-                ${followedByCurrentUser ? "bg-white text-black hover:bg-gray-100" : "bg-black text-white hover:bg-gray-900"}`}
+                ${followedByCurrentUser 
+                    ? "bg-white text-black hover:bg-gray-100" 
+                    : "bg-black text-white hover:bg-gray-900"}`}
                 onClick={handleFollow}
             >
                 {followedByCurrentUser ? <>Following</> : <>Follow</>}

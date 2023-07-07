@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react"
-import postService from "../../service/PostService.js"
-import authService from "../../service/AuthService.js"
-import { useNavigate } from "react-router-dom"
+import {useContext, useEffect, useState} from "react"
+import postService from "../../api/PostApi.js"
+import {AuthContext} from "../security/AuthContext.js";
 
 export default function useHome(page) {
 
+    const { logout } = useContext(AuthContext)
     const PAGE_SIZE = 5
     const [loading, setLoading] = useState(true)
     const [posts, setPosts] = useState([])
     const [hasMore, setHasMore] = useState(false)
-    const navigate = useNavigate()
 
     useEffect(() => {
         setLoading(true)
@@ -22,8 +21,7 @@ export default function useHome(page) {
             })
             .catch((e) => {
                 if (e.response?.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
+                    logout()
                 } else {
                     console.log(e.response?.status + ": " + e.response?.data?.message)
                 }

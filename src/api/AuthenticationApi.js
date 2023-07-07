@@ -11,10 +11,4 @@ export default new class AuthService {
     login(request) {
         return axios.post(AUTH_API_BASE_URL + "/login", request)
     }
-
-    logout() {
-        localStorage.removeItem("authenticationToken")
-        localStorage.removeItem("expiresAt")
-        localStorage.removeItem("user")
-    }
 }

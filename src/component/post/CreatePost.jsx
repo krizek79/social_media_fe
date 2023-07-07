@@ -1,14 +1,16 @@
-import postService from "../../service/PostService.js";
-import React, { useState } from "react";
-import ErrorNotification from "../util/ErrorNotification.jsx";
+import postService from "../../api/PostApi.js"
+import React, {useContext, useState} from "react"
+import ErrorNotification from "../util/ErrorNotification.jsx"
+import {AuthContext} from "../security/AuthContext.js"
 
 export default function CreatePost(props) {
 
+    const { logout } = useContext(AuthContext)
+    const [error, setError] = useState(null)
+    const [isBodyValid, setIsBodyValid] = useState(false)
     const [request, setRequest] = useState({
         body: ""
-    });
-    const [error, setError] = useState(null);
-    const [isBodyValid, setIsBodyValid] = useState(false);
+    })
 
     function validateBody(body) {
         const isValid = body.length > 0;
@@ -36,6 +38,10 @@ export default function CreatePost(props) {
                 setIsBodyValid(false)
             })
             .catch(e => {
+                if (e.response.status === 401) {
+                    logout()
+                }
+                console.log(e.response.status + ": " + e.response.data.message)
                 setError(e.response.data.message)
             })
     }

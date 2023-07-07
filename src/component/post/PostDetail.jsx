@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from "react";
-import postService from "../../service/PostService.js";
-import authService from "../../service/AuthService.js";
-import {useNavigate} from "react-router-dom";
-import CommentSection from "../comment/CommentSection.jsx";
-import PostLikeButton from "./PostLikeButton.jsx";
-import Loading from "../util/Loading.jsx";
+import React, {useContext, useEffect, useState} from "react"
+import postService from "../../api/PostApi.js"
+import {useNavigate} from "react-router-dom"
+import CommentSection from "../comment/CommentSection.jsx"
+import PostLikeButton from "./PostLikeButton.jsx"
+import Loading from "../util/Loading.jsx"
+import {AuthContext} from "../security/AuthContext.js"
 
 export default function PostDetail() {
 
-    const userData = JSON.parse(localStorage.getItem("user"))
+    const { logout, getUser } = useContext(AuthContext)
     const urlParams = new URLSearchParams(window.location.search)
     const postId = urlParams.get("id")
     const navigate = useNavigate()
@@ -30,8 +30,7 @@ export default function PostDetail() {
             })
             .catch(e => {
                 if (e.response.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(e.response ? `${e.response.status}: ${e.response.data.message}` : e.message)
             })
@@ -50,7 +49,7 @@ export default function PostDetail() {
             })
             .catch(e => {
                 if (e.response.status === 401) {
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(e.response.status + ": " + e.response.data.message)
             })
@@ -65,8 +64,9 @@ export default function PostDetail() {
             })
             .catch(e => {
                 if (e.response.status === 401) {
-                    navigate("/authentication")
+                    logout()
                 }
+                console.log(e.response.status + ": " + e.response.data.message)
             })
     }
 
@@ -122,7 +122,7 @@ export default function PostDetail() {
                         className="flex-col overflow-y-auto mx-auto w-11/12 md:w-3/5 m-6 py-6 px-3 bg-white rounded
                         shadow-md md:p-6"
                     >
-                        {post.owner.username === userData.username || userData.role === "ADMIN" ? (
+                        {post.owner.username === getUser().username || getUser().role === "ADMIN" ? (
                             <div className="justify-end w-full flex flex-row gap-x-3 pt-3">
                                 {isEditable ? (
                                     <div className="flex flex-row gap-x-3">

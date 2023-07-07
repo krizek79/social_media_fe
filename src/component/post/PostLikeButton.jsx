@@ -1,15 +1,14 @@
-import { useState } from "react";
-import likeService from "../../service/LikeService.js";
-import authService from "../../service/AuthService.js";
-import { useNavigate } from "react-router-dom";
+import {useContext, useState} from "react"
+import likeService from "../../api/LikeApi.js"
+import {AuthContext} from "../security/AuthContext.js"
 
 export default function PostLikeButton(props) {
 
-    const navigate = useNavigate()
-    const userData = JSON.parse(localStorage.getItem("user"))
+    const { logout, getUser } = useContext(AuthContext)
     const [numberOfLikes, setNumberOfLikes] = useState(props.post.likes.length)
     const [likedByCurrentUser, setLikedByCurrentUser] = useState(
-        props.post.likes.some((like) => like.username === userData.username))
+        props.post.likes.some((like) => like.username === getUser().username)
+    )
 
     function handleLike(postId) {
         if (likedByCurrentUser) {
@@ -29,8 +28,7 @@ export default function PostLikeButton(props) {
             })
             .catch((e) => {
                 if (e.response.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(e.response.status + ": " + e.response.data.message)
             })
@@ -46,8 +44,7 @@ export default function PostLikeButton(props) {
             })
             .catch((e) => {
                 if (e.response.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(e.response.status + ": " + e.response.data.message)
             })

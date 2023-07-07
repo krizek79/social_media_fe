@@ -1,23 +1,14 @@
-import React, {useEffect, useState} from "react";
-import authService from "../../service/AuthService.js";
-import { useNavigate } from "react-router-dom";
+import React, {useContext, useState} from "react"
+import {AuthContext} from "../security/AuthContext.js"
 
 export default function Header() {
 
-    const navigate = useNavigate()
+    const {logout, authenticated, getUser} = useContext(AuthContext)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const userData = JSON.parse(localStorage.getItem("user"))
 
-    useEffect(() => {
-        if (!localStorage.getItem("authenticationToken")) {
-            navigate("/authentication")
-        }
-    }, [])
-
-    function logout() {
-        authService.logout()
+    function handleLogout() {
+        logout()
         toggleMenu()
-        navigate("/authentication")
     }
 
     function toggleMenu() {
@@ -34,14 +25,14 @@ export default function Header() {
                     >
                         Social Media
                     </a>
-                    {localStorage.getItem("authenticationToken") && (
-                        <span>Hello, {userData.username}</span>
+                    {authenticated && (
+                        <span>Hello, {getUser().username}</span>
                     )}
                 </div>
-                {localStorage.getItem("authenticationToken") && (
+                {authenticated && (
                     <>
                         <img
-                            src={userData.avatarUrl}
+                            src={getUser().avatarUrl}
                             alt={"Profile picture"}
                             className="rounded-full h-12 w-12 object-scale-down hover:cursor-pointer"
                             onClick={toggleMenu}
@@ -52,7 +43,7 @@ export default function Header() {
                                     <ul className="text-xl font-medium w-full">
                                         <li className="flex flex-col gap-y-6 hover:bg-gray-100 duration-300">
                                             <a
-                                                href={`/profile?username=${userData.username}`}
+                                                href={`/profile?username=${getUser().username}`}
                                                 className="w-full text-left px-6 py-6"
                                             >
                                                 My profile
@@ -78,7 +69,7 @@ export default function Header() {
                                     <button
                                         className="px-6 py-6 text-xl font-medium w-full border-t hover:bg-gray-100
                                         duration-300 text-left"
-                                        onClick={logout}
+                                        onClick={handleLogout}
                                     >
                                         Logout
                                     </button>

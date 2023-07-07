@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import commentService from "../../service/CommentService.js";
+import React, {useContext, useState} from "react"
+import commentService from "../../api/CommentApi.js"
+import {AuthContext} from "../security/AuthContext.js"
 
 export default function CreateComment(props) {
 
+    const { logout } = useContext(AuthContext)
     const [request, setRequest] = useState({
         postId: props.postId,
         parentCommentId: props.parentCommentId,
@@ -35,7 +37,10 @@ export default function CreateComment(props) {
                 setIsBodyValid(false)
             })
             .catch(e => {
-                console.log(e)
+                if (e.response.status === 401) {
+                    logout()
+                }
+                console.log(e.response.status + ": " + e.response.data.message)
             })
     }
 

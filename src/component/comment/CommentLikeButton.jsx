@@ -1,15 +1,13 @@
-import { useState } from "react";
-import likeService from "../../service/LikeService.js";
-import authService from "../../service/AuthService.js";
-import { useNavigate } from "react-router-dom";
+import {useContext, useState} from "react"
+import likeService from "../../api/LikeApi.js"
+import {AuthContext} from "../security/AuthContext.js"
 
 export default function CommentLikeButton(props) {
 
-    const navigate = useNavigate()
-    const userData = JSON.parse(localStorage.getItem("user"))
+    const { authData, logout } = useContext(AuthContext)
     const [numberOfLikes, setNumberOfLikes] = useState(props.comment.likes.length)
     const [likedByCurrentUser, setLikedByCurrentUser] = useState(
-        props.comment.likes.some((like) => like.username === userData.username))
+        props.comment.likes.some((like) => like.username === authData.user.username))
 
     function handleLike(commentId) {
         if (likedByCurrentUser) {
@@ -29,8 +27,7 @@ export default function CommentLikeButton(props) {
             })
             .catch((e) => {
                 if (e.response.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
+                    logout()
                 }
             })
     }
@@ -45,8 +42,7 @@ export default function CommentLikeButton(props) {
             })
             .catch((e) => {
                 if (e.response.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(e.response.status + ": " + e.response.data.message)
             })

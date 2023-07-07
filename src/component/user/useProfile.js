@@ -1,13 +1,13 @@
-import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import appUserService from "../../service/AppUserService.js";
-import postService from "../../service/PostService.js";
+import {useContext, useEffect, useState} from "react";
+import appUserService from "../../api/AppUserApi.js";
+import postService from "../../api/PostApi.js";
+import {AuthContext} from "../security/AuthContext.js";
 
 export default function useProfile(page) {
 
+    const { logout, getUser } = useContext(AuthContext)
     const PAGE_SIZE = 5
     const [hasMore, setHasMore] = useState(false)
-    const navigate = useNavigate()
     const [profileLoading, setProfileLoading] = useState(false)
     const [postsLoading, setPostsLoading] = useState(false)
     const urlParams = new URLSearchParams(window.location.search)
@@ -37,7 +37,7 @@ export default function useProfile(page) {
             })
             .catch(error => {
                 if (error.response.status === 401) {
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(error.response.status + ": " + error.response.data.message)
             })
@@ -56,7 +56,7 @@ export default function useProfile(page) {
             })
             .catch(error => {
                 if (error.response.status === 401) {
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(error.response.status + ": " + error.response.data.message)
             })
@@ -96,6 +96,7 @@ export default function useProfile(page) {
         postsLoading,
         hasMore,
         isEditable,
+        getUser,
         addNewPost,
         updateProfile,
         toggleEdit,

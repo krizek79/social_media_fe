@@ -1,4 +1,4 @@
-import authService from "../../service/AuthService.js"
+import authService from "../../api/AuthenticationApi.js"
 import React, {useState} from "react";
 import ErrorNotification from "../util/ErrorNotification.jsx";
 import {useNavigate} from "react-router-dom";

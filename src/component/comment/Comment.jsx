@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import CreateComment from "./CreateComment.jsx";
-import commentService from "../../service/CommentService.js";
-import authService from "../../service/AuthService.js";
+import commentService from "../../api/CommentApi.js";
 import CommentLikeButton from "./CommentLikeButton.jsx";
+import {AuthContext} from "../security/AuthContext.js";
 
 export default function Comment(props) {
 
+    const { logout, getUser } = useContext(AuthContext)
     const navigate = useNavigate()
-    const userData = JSON.parse(localStorage.getItem("user"))
     const [showCreateComment, setShowCreateComment] = useState(false)
     const [showChildComments, setShowChildComments] = useState(false)
     const [childComments, setChildComments] = useState(props.comment.childComments || [])
@@ -22,8 +22,7 @@ export default function Comment(props) {
             })
             .catch(e => {
                 if (e.response.status === 401) {
-                    authService.logout()
-                    navigate("/authentication")
+                    logout()
                 }
                 console.log(e.response.status + ": " + e.response.data.message)
             })
@@ -117,7 +116,7 @@ export default function Comment(props) {
                         Reply
                     </button>
                 </div>
-                {props.comment.author.username === userData.username || userData.role === "ADMIN" ? (
+                {props.comment.author.username === getUser().username || getUser.role === "ADMIN" ? (
                     <div>
                         <button className="hover:text-red-500" onClick={deleteComment}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,14 +1,13 @@
 import React, {useState} from "react"
-import Post from "../post/Post.jsx";
-import CreatePost from "../post/CreatePost.jsx";
-import FollowButton from "./FollowButton.jsx";
-import useProfile from "./useProfile.js";
-import Loading from "../util/Loading.jsx";
-import ShowMoreButton from "../util/ShowMoreButton.jsx";
+import Post from "../post/Post.jsx"
+import CreatePost from "../post/CreatePost.jsx"
+import FollowButton from "./FollowButton.jsx"
+import useProfile from "./useProfile.js"
+import Loading from "../util/Loading.jsx"
+import ShowMoreButton from "../util/ShowMoreButton.jsx"
 
 export default function Profile() {
 
-    const userData = JSON.parse(localStorage.getItem("user"))
     const [page, setPage] = useState(0)
     const {
         profileData,
@@ -17,9 +16,8 @@ export default function Profile() {
         profileLoading,
         postsLoading,
         hasMore,
-        isEditable,
+        getUser,
         addNewPost,
-        updateProfile,
         toggleEdit,
         updateNumberOfFollowers
     } = useProfile(page)
@@ -43,10 +41,11 @@ export default function Profile() {
                                 <img
                                     src={profileData.avatarUrl}
                                     alt={"User avatar..."}
-                                    className="rounded-full h-32 w-32 hover:cursor-pointer hover:grayscale-[50%] duration-300"
+                                    className="rounded-full h-32 w-32 hover:cursor-pointer hover:grayscale-[50%]
+                                    duration-300"
                                 />
                                 <div className="flex items-end">
-                                    {profileData.username !== userData.username ? (
+                                    {profileData.username !== getUser().username ? (
                                         <FollowButton
                                             profileData={profileData}
                                             updateNumberOfFollowers={updateNumberOfFollowers}
@@ -80,7 +79,7 @@ export default function Profile() {
                             </div>
                         </div>
                         <div className="flex flex-col gap-y-3 mt-3">
-                            {userData.username === profileData.username && (
+                            {profileData.username === getUser().username && (
                                 <CreatePost addNewPost={addNewPost}/>
                             )}
                             <div className="flex flex-col gap-y-3">
@@ -104,7 +103,6 @@ export default function Profile() {
                             </div>
                         </div>
                     </>
-
                 )}
             </div>
         </main>
