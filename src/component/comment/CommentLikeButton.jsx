@@ -4,10 +4,10 @@ import {AuthContext} from "../security/AuthContext.js"
 
 export default function CommentLikeButton(props) {
 
-    const { authData, logout } = useContext(AuthContext)
+    const { getUser, logout } = useContext(AuthContext)
     const [numberOfLikes, setNumberOfLikes] = useState(props.comment.likes.length)
     const [likedByCurrentUser, setLikedByCurrentUser] = useState(
-        props.comment.likes.some((like) => like.username === authData.user.username))
+        props.comment.likes.some((like) => like.username === getUser().username))
 
     function handleLike(commentId) {
         if (likedByCurrentUser) {

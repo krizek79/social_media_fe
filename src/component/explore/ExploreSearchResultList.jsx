@@ -1,4 +1,5 @@
 import ExploreProfilePreview from "./ExploreProfilePreview.jsx";
+import ShowMoreButton from "../util/ShowMoreButton.jsx";
 
 export default function ExploreSearchResultList() {
 
@@ -7,11 +8,7 @@ export default function ExploreSearchResultList() {
             <ExploreProfilePreview/>
             <ExploreProfilePreview/>
             <ExploreProfilePreview/>
-            <div className="flex w-full justify-center mt-6 mb-3">
-                <button className="text-blue-500 hover:underline">
-                    Show more
-                </button>
-            </div>
+            <ShowMoreButton/>
         </section>
     )
 }

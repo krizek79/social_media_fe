@@ -1,16 +1,28 @@
 import { AuthContext } from "./AuthContext.js"
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import { useNavigate } from "react-router-dom"
 import Cookies from "js-cookie"
 
 export default function AuthProvider({ children }) {
 
     const navigate = useNavigate()
-    const [authenticated, setAuthenticated] = useState(Cookies.get("authenticated"))
+    const [authenticated, setAuthenticated] = useState(
+        () => Cookies.get("authenticated") === "true"
+    )
     const [authData, setAuthData] = useState({
         token: "",
         expiresAt: ""
     })
+
+    useEffect(() => {
+        const token = Cookies.get("token")
+        const expiresAt = Cookies.get("expiresAt")
+        const user = Cookies.get("user")
+
+        if (!token || !expiresAt || !user) {
+            logout()
+        }
+    }, [])
 
     const login = (data) => {
         setAuthenticated(true)
@@ -31,7 +43,7 @@ export default function AuthProvider({ children }) {
     }
 
     const getUser = () => {
-        return JSON.parse(Cookies.get("user"))
+        return Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null
     }
 
     return (

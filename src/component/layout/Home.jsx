@@ -19,31 +19,22 @@ export default function Home() {
     }
 
     return (
-        <main className="bg-gradient-to-b from-gray-900 to-gray-700 flex">
-            <div
-                className="flex-col overflow-y-auto mx-auto w-11/12 md:w-3/5 m-6 px-1 py-6 bg-white rounded shadow-md
-                md:p-6"
-            >
-                <section className="flex flex-col gap-y-3">
+        <div className="flex w-full justify-center">
+            <div className="flex flex-col w-11/12 md:w-3/5">
+                <section className="flex flex-col bg-white rounded px-1 md:px-6 py-6 gap-y-3">
                     <CreatePost addNewPost={addNewPost} />
-                    <div className="flex flex-col gap-y-3">
-                        {posts.length === 0 && !loading && (
-                            <span className="w-full text-center font-light text-sm md:text-lg">
-                                There is nothing to show
-                            </span>
-                        )}
-                        {posts.map((post) => (
-                            <Post key={post.id} post={post} />
-                        ))}
-                        {hasMore && (
-                            <ShowMoreButton handleShowMore={handleShowMore}/>
-                        )}
-                        {loading && (
-                            <Loading/>
-                        )}
-                    </div>
+                    {posts.length === 0 && !loading && (
+                        <span className="w-full text-center font-light text-sm md:text-lg">
+                            There is nothing to show
+                        </span>
+                    )}
+                    {posts.map((post) => (
+                        <Post key={post.id} post={post} />
+                    ))}
+                    {hasMore && <ShowMoreButton handleShowMore={handleShowMore} />}
+                    {loading && <Loading />}
                 </section>
             </div>
-        </main>
-    );
+        </div>
+    )
 }
