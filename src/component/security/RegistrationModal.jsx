@@ -115,8 +115,7 @@ export default function RegistrationModal(props) {
                 focus:outline-none w-full rounded-md"
             >
                 <div
-                    className="sm:px-6 w-11/12 md:w-full p-6 pt-3 m-auto bg-white rounded-md shadow-md lg:max-w-xl
-                    overflow-y-auto"
+                    className="w-11/12 md:w-3/5 p-6 pt-3 m-auto bg-[#F6F6F6] rounded-md shadow-md overflow-y-auto"
                 >
                     <div className={"flex width-full justify-between border-b pb-3"}>
                         <div className="text-lg font-medium self-end">

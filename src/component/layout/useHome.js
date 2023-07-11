@@ -12,7 +12,7 @@ export default function useHome(page) {
 
     useEffect(() => {
         setLoading(true)
-        postService.getAllPosts(page, PAGE_SIZE)
+        postService.getPostsOfFollowedUsers(page, PAGE_SIZE)
             .then((response) => {
                 setPosts((prevPosts) => {
                     return [...new Set([...prevPosts, ...response.data])]

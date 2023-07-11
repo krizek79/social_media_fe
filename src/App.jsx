@@ -17,7 +17,7 @@ export default function App() {
             <AuthProvider>
                 <div className="flex flex-col h-screen overflow-y-hidden justify-between">
                     <Header/>
-                    <main className="flex-grow overflow-y-scroll bg-gradient-to-b from-gray-900 to-gray-700 py-6">
+                    <main className="flex-grow overflow-y-scroll bg-gradient-to-b from-[#141E61] to-[#787A91] py-6">
                         <Routes>
                             <Route path="/auth" element={<Login />}/>
                             <Route path="/registration-successful" element={<RegistrationSuccessful />}/>

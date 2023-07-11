@@ -15,7 +15,7 @@ export default function Post(props) {
             return `
                 <a 
                     href="${url}" target="_blank" rel="noopener noreferrer" 
-                    class="text-blue-500 hover:underline break-all"
+                    class="text-blue-600 hover:underline break-all"
                 >
                     ${url}
                 </a>
@@ -26,7 +26,7 @@ export default function Post(props) {
     return (
         <>
             <div
-                className="px-3 py-3 border rounded hover:cursor-pointer hover:bg-gray-100"
+                className="px-3 py-3 border rounded hover:cursor-pointer hover:bg-gray-200"
                 onClick={() => navigate("/post?id=" + props.post.id)}
             >
                 <div className="border-solid border-0 border-b border-blue-600 pb-2 flex flex-row gap-x-3">

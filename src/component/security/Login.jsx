@@ -79,7 +79,7 @@ export default function Login() {
         <div className="flex w-full">
             <div className="mx-3 md:mx-24 my-28 justify-center items-center flex w-full">
                 <div className="w-full flex flex-col justify-center">
-                    <div className="sm:px-6 w-full p-6 pt-3 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
+                    <div className="sm:px-6 w-full p-6 pt-3 m-auto bg-[#F6F6F6] rounded-md shadow-md lg:max-w-xl">
                         <div className="mt-3">
                             <div className="mb-2">
                                 <label

@@ -1,16 +1,17 @@
-import React, {useContext, useState} from "react"
+import React, { useContext, useState, useRef, useEffect } from "react"
 import commentService from "../../api/CommentApi.js"
-import {AuthContext} from "../security/AuthContext.js"
+import { AuthContext } from "../security/AuthContext.js"
 
 export default function CreateComment(props) {
 
     const { logout } = useContext(AuthContext)
+    const [isBodyValid, setIsBodyValid] = useState(false)
+    const textareaRef = useRef(null)
     const [request, setRequest] = useState({
         postId: props.postId,
         parentCommentId: props.parentCommentId,
         body: ""
     })
-    const [isBodyValid, setIsBodyValid] = useState(false)
 
     function validateBody(body) {
         const isValid = body.length > 0
@@ -65,24 +66,31 @@ export default function CreateComment(props) {
         )
     } else {
         submitButtonClasses.push(
-            "bg-green-700",
-            "focus:bg-green-600",
-            "hover:bg-green-600"
+            "bg-[#141E61]",
+            "focus:bg-[#141E61]",
+            "hover:bg-[#0F044C]"
         )
     }
+
+    useEffect(() => {
+        const textarea = textareaRef.current
+        textarea.style.height = "auto"
+        textarea.style.height = `${textarea.scrollHeight}px`
+    }, [request.body])
 
     return (
         <>
             <div className="p-3 border rounded mb-3">
-            <textarea
-                rows="1"
-                name="body"
-                value={request.body}
-                className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md focus:border-blue-700
-                focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                onChange={handleChange}
-                placeholder="Write a new comment"
-            ></textarea>
+                <textarea
+                    rows="1"
+                    name="body"
+                    ref={textareaRef}
+                    value={request.body}
+                    className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md focus:border-blue-700
+                    focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 overflow-y-hidden"
+                    onChange={handleChange}
+                    placeholder="Write a new comment"
+                ></textarea>
                 <div className="flex justify-end w-full">
                     <button
                         className={submitButtonClasses.join(" ")}

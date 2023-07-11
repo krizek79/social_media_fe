@@ -115,7 +115,7 @@ export default function PostDetail() {
     return (
         <div className="flex w-full justify-center">
             <div className="flex flex-col w-11/12 md:w-3/5">
-                <section className="flex flex-col bg-white rounded px-1 md:px-6 py-6 gap-y-3">
+                <section className="flex flex-col bg-[#F6F6F6] rounded px-1 md:px-6 py-6 gap-y-3">
                     {!post ? <Loading/> : (
                         <>
                             {post.owner.username === getUser().username || getUser().role === "ADMIN" ? (
@@ -196,7 +196,7 @@ export default function PostDetail() {
                                     {postUpdateRequest.body}
                                 </textarea>
                             ) : (
-                                <div className="bg-gray-100 p-3">
+                                <div className="bg-white p-3">
                                     <div
                                         className="break-normal"
                                         dangerouslySetInnerHTML={{ __html: formatBody(post.body) }}

@@ -1,22 +1,22 @@
 export default function ExploreProfilePreview(props) {
     
     return (
-        <a href={"#"}>
+        <a href={`/profile?username=${props.profile.username}`}>
             <div
-                className="flex flex-row gap-x-6 border w-full px-3 py-3 items-center hover:cursor-pointer
-                hover:bg-gray-100"
+                className="flex flex-row gap-x-6 w-full px-3 py-3 items-center hover:cursor-pointer
+                hover:bg-gray-200"
             >
                 <img
-                    src={"https://ui-avatars.com/api/?name=Matej%20Križan&background=random&size=256"}
+                    src={props.profile.avatarUrl}
                     alt={"Profile picture"}
-                    className={"w-12 h-12 rounded-full"}
+                    className={"w-10 h-10 rounded-full"}
                 />
                 <div className="flex flex-col w-full">
-                    <span className="font-medium text-lg">
-                        Matej Križan
+                    <span className="font-medium text-base">
+                        {props.profile.username}
                     </span>
                     <span>
-                        krizan.matej79@gmail.com
+                        {props.profile.email}
                     </span>
                 </div>
             </div>

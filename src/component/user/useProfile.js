@@ -5,8 +5,8 @@ import {AuthContext} from "../security/AuthContext.js";
 
 export default function useProfile(page) {
 
-    const { logout, getUser } = useContext(AuthContext)
     const PAGE_SIZE = 5
+    const { logout, getUser } = useContext(AuthContext)
     const [hasMore, setHasMore] = useState(false)
     const [profileLoading, setProfileLoading] = useState(false)
     const [postsLoading, setPostsLoading] = useState(false)

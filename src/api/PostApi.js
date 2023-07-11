@@ -6,7 +6,7 @@ const POST_API_BASE_URL = "http://localhost:8080/posts"
 export default new class PostService {
 
     getAllPosts(page, size) {
-        return axios.get( `${POST_API_BASE_URL}?page=${page}&size=${size}`, {
+        return axios.get( `${POST_API_BASE_URL}?page=${page}&size=${size}&sort=createdAt%2Cdesc`, {
             headers: {
                 Authorization: "Bearer " + Cookies.get("token")
             }
@@ -46,7 +46,16 @@ export default new class PostService {
     }
 
     getAllPostsByUsername(username, page, size) {
-        return axios.get(`${POST_API_BASE_URL}/username/${username}?page=${page}&size=${size}`, {
+        return axios.get(
+            `${POST_API_BASE_URL}/username/${username}?page=${page}&size=${size}&sort=createdAt%2Cdesc`, {
+                headers: {
+                    Authorization: "Bearer " + Cookies.get("token")
+                }
+            })
+    }
+
+    getPostsOfFollowedUsers(page, size) {
+        return axios.get(`${POST_API_BASE_URL}/followed?page=${page}&size=${size}&sort=createdAt%2Cdesc`, {
             headers: {
                 Authorization: "Bearer " + Cookies.get("token")
             }
