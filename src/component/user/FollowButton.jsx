@@ -4,15 +4,9 @@ import {AuthContext} from "../security/AuthContext.js"
 
 export default function FollowButton(props) {
 
-    const { logout, getUser } = useContext(AuthContext)
-    const [followedByCurrentUser, setFollowedByCurrentUser] = useState(false)
+    const { logout } = useContext(AuthContext)
+    const [followedByCurrentUser, setFollowedByCurrentUser] = useState(props.profileData.followedByCurrentUser)
 
-    useEffect(() => {
-        const isFollowedByCurrentUser = props.profileData.followers.some(
-            follow => follow.follower.username === getUser().username
-        )
-        setFollowedByCurrentUser(isFollowedByCurrentUser)
-    }, [props.profileData.followers])
 
     function handleFollow() {
         if (followedByCurrentUser) {

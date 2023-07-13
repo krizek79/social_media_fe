@@ -31,13 +31,13 @@ export default function Post(props) {
             >
                 <div className="border-solid border-0 border-b border-blue-600 pb-2 flex flex-row gap-x-3">
                     <img
-                        src={props.post.owner.avatarUrl}
+                        src={props.post.author.avatarUrl}
                         alt="Profile picture"
                         className="rounded-full object-scale-down h-12 w-12 hover:cursor-pointer hover:grayscale-[50%]
                         duration-200"
                         onClick={(e) => {
                             e.stopPropagation()
-                            navigate("/profile?username=" + props.post.owner.username)
+                            navigate("/profile?username=" + props.post.author.username)
                         }}
                     />
                     <div className="flex flex-col">
@@ -45,10 +45,10 @@ export default function Post(props) {
                         className="font-medium text-lg hover:cursor-pointer hover:underline"
                         onClick={(e) => {
                             e.stopPropagation()
-                            navigate("/profile?username=" + props.post.owner.username)
+                            navigate("/profile?username=" + props.post.author.username)
                         }}
                     >
-                        {props.post.owner.username}
+                        {props.post.author.username}
                     </span>
                         <div className="font-normal text-xs">
                             {formatDate(props.post.createdAt)}

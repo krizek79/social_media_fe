@@ -4,11 +4,9 @@ import {AuthContext} from "../security/AuthContext.js"
 
 export default function PostLikeButton(props) {
 
-    const { logout, getUser } = useContext(AuthContext)
-    const [numberOfLikes, setNumberOfLikes] = useState(props.post.likes.length)
-    const [likedByCurrentUser, setLikedByCurrentUser] = useState(
-        props.post.likes.some((like) => like.username === getUser().username)
-    )
+    const { logout } = useContext(AuthContext)
+    const [numberOfLikes, setNumberOfLikes] = useState(props.post.numberOfLikes)
+    const [likedByCurrentUser, setLikedByCurrentUser] = useState(props.post.likedByCurrentUser)
 
     function handleLike(postId) {
         if (likedByCurrentUser) {

@@ -1,55 +1,11 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../security/AuthContext.js";
+import React from "react";
+import FooterMenuProfilePictureDialog from "./FooterMenuProfilePictureDialog.jsx";
 
 export default function FooterMenu() {
-    const { logout, getUser } = useContext(AuthContext);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    function handleLogout() {
-        logout();
-        toggleMenu();
-    }
-
-    function toggleMenu() {
-        setIsMenuOpen(!isMenuOpen);
-    }
 
     return (
         <footer className="flex z-20 w-full bg-[#F6F6F6] border-t border-gray-200">
-            <button
-                className="flex w-full justify-center py-4 hover:bg-gray-200 items-center hover:cursor-pointer"
-                onClick={toggleMenu}
-            >
-                <img
-                    src={getUser().avatarUrl}
-                    alt={"Profile picture"}
-                    className="rounded-full h-8 w-8 object-scale-down"
-                />
-                {isMenuOpen && (
-                    <>
-                        <div className="fixed flex items-center justify-center inset-0 z-50">
-                            <div className="flex flex-col bg-white rounded">
-                                <a
-                                    href={`/profile?username=${getUser().username}`}
-                                    className="w-full px-12 py-6 hover:bg-gray-200 duration-300"
-                                >
-                                    My profile
-                                </a>
-                                <div
-                                    className="w-full px-12 py-6 hover:cursor-pointer hover:bg-gray-200 duration-300 border-t"
-                                    onClick={handleLogout}
-                                >
-                                    Logout
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            className="fixed inset-0 z-40 bg-black opacity-50"
-                            onClick={toggleMenu}
-                        ></div>
-                    </>
-                )}
-            </button>
+            <FooterMenuProfilePictureDialog/>
             <div className="my-1.5 border-r border-gray-700"></div>
             <a
                 className="flex w-full justify-center py-4 hover:bg-gray-200 items-center"

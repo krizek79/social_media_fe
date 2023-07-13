@@ -13,7 +13,6 @@ export default function Profile() {
     const [followersModal, setFollowersModal] = useState(false)
     const {
         profileData,
-        followStats,
         posts,
         profileLoading,
         postsLoading,
@@ -78,12 +77,12 @@ export default function Profile() {
                                         <button
                                             className="hover:cursor-pointer hover:underline decoration-1"
                                         >
-                                            <span className="font-bold">{followStats.numberOfFollowing}</span> Following
+                                            <span className="font-bold">{profileData.numberOfFollowing}</span> Following
                                         </button>
                                         <button
                                             className="hover:cursor-pointer hover:underline decoration-1"
                                         >
-                                            <span className="font-bold">{followStats.numberOfFollowers}</span> Followers
+                                            <span className="font-bold">{profileData.numberOfFollowers}</span> Followers
                                         </button>
                                     </div>
                                 </div>

@@ -20,12 +20,9 @@ export default function useProfile(page) {
         email: null,
         bio: null,
         avatarUrl: null,
-        followers: [],
-        following: []
-    })
-    const [followStats, setFollowStats] = useState({
         numberOfFollowers: 0,
-        numberOfFollowing: 0
+        numberOfFollowing: 0,
+        followedByCurrentUser: false
     })
 
     //  Profile
@@ -63,16 +60,12 @@ export default function useProfile(page) {
             .finally(() => setPostsLoading(false))
     }, [username, page])
 
-    useEffect(() => {
-        setFollowStats({
-            numberOfFollowers: profileData.followers.length,
-            numberOfFollowing: profileData.following.length
-        })
-    }, [profileData.followers, profileData.following])
 
     const updateNumberOfFollowers = (amount) => {
-        setFollowStats({
-            ...followStats, numberOfFollowers: followStats.numberOfFollowers + amount
+        setProfileData({
+            ...profileData, numberOfFollowers:
+                profileData.numberOfFollowers + amount,
+                followedByCurrentUser: !profileData.followedByCurrentUser
         })
     }
 
@@ -90,7 +83,6 @@ export default function useProfile(page) {
 
     return {
         profileData,
-        followStats,
         posts,
         profileLoading,
         postsLoading,

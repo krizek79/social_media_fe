@@ -118,7 +118,7 @@ export default function PostDetail() {
                 <section className="flex flex-col bg-[#F6F6F6] rounded px-1 md:px-6 py-6 gap-y-3">
                     {!post ? <Loading/> : (
                         <>
-                            {post.owner.username === getUser().username || getUser().role === "ADMIN" ? (
+                            {post.author.username === getUser().username || getUser().role === "ADMIN" ? (
                                 <div className="justify-end w-full flex flex-row gap-x-3 px-3">
                                     {isEditable ? (
                                         <div className="flex flex-row gap-x-3">
@@ -164,18 +164,18 @@ export default function PostDetail() {
                             <div className="flex justify-between border-b pb-3 px-3">
                                 <div className="flex flex-row gap-x-3">
                                     <img
-                                        src={post.owner.avatarUrl}
+                                        src={post.author.avatarUrl}
                                         alt={"User avatar..."}
                                         className="rounded-full object-scale-down h-12 w-12 hover:cursor-pointer
                                         hover:grayscale-[50%] duration-300"
-                                        onClick={() => navigate("/profile?username=" + post.owner.username)}
+                                        onClick={() => navigate("/profile?username=" + post.author.username)}
                                     />
                                     <div className="gap-y-1/2 flex flex-col">
                                         <a
                                             className="font-medium text-lg hover:cursor-pointer hover:underline"
-                                            href={"/profile?username=" + post.owner.username}
+                                            href={"/profile?username=" + post.author.username}
                                         >
-                                            {post.owner.username}
+                                            {post.author.username}
                                         </a>
                                         <div className="font-normal text-xs">
                                             {formatDate(post.createdAt)}
