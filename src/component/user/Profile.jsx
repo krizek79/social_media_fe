@@ -11,8 +11,6 @@ import EditProfileDialog from "./EditProfileDialog.jsx";
 export default function Profile() {
 
     const [page, setPage] = useState(0)
-    const [followingModal, setFollowingModal] = useState(false)
-    const [followersModal, setFollowersModal] = useState(false)
     const {
         profileData,
         posts,
@@ -35,14 +33,6 @@ export default function Profile() {
 
     function handleShowMore() {
         setPage((prevPageNumber) => prevPageNumber + 1)
-    }
-
-    function toggleFollowingModal() {
-        setFollowingModal(!followingModal)
-    }
-
-    function toggleFollowersModal() {
-        setFollowersModal(!followersModal)
     }
 
     return (
