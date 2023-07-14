@@ -11,15 +11,18 @@ export default function Post(props) {
 
     function formatBody(body) {
         const urlRegex = /(https?:\/\/\S+)/g
-        return body.replace(urlRegex, url => {
+        const lineBreakRegex = /\n/g
+        const bodyWithLineBreaks = body.replace(lineBreakRegex, "<br>")
+
+        return bodyWithLineBreaks.replace(urlRegex, url => {
             return `
-                <a 
-                    href="${url}" target="_blank" rel="noopener noreferrer" 
-                    class="text-blue-600 hover:underline break-all"
-                >
-                    ${url}
-                </a>
-            `
+            <a 
+                href="${url}" target="_blank" rel="noopener noreferrer" 
+                class="text-blue-600 hover:underline break-all"
+            >
+                ${url}
+            </a>
+        `
         })
     }
 

@@ -82,8 +82,9 @@ export default function RegistrationDialog() {
             .catch(e => {
                 if (e.response?.data?.message) {
                     setApiError(e.response.data.message)
+                } else {
+                    console.log(e)
                 }
-                console.log(e.response.status + ": " + e.response.data.message)
             })
     }
 
@@ -220,7 +221,9 @@ export default function RegistrationDialog() {
                                             )}
                                         </div>
                                         {apiError && (
-                                            <ErrorNotification message={apiError}/>
+                                            <div className="mt-6">
+                                                <ErrorNotification message={apiError} setApiError={setApiError}/>
+                                            </div>
                                         )}
                                         <div className="mt-6">
                                             <button

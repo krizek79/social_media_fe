@@ -1,4 +1,4 @@
-import {Fragment, useState} from "react"
+import {useState} from "react"
 
 export default function ErrorNotification(props) {
 
@@ -13,7 +13,10 @@ export default function ErrorNotification(props) {
                         {message}
                     </div>
                     <div className="">
-                        <button onClick={() => setIsClosed(true)}>
+                        <button onClick={() => {
+                            props.setApiError(null)
+                            setIsClosed(true)
+                        }}>
                             &times;
                         </button>
                     </div>

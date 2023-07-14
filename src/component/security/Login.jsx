@@ -117,12 +117,13 @@ export default function Login() {
                                 )}
                             </div>
                             {apiError && (
-                                <ErrorNotification message={apiError}/>
+                                <div className="mt-6">
+                                    <ErrorNotification message={apiError} setApiError={setApiError}/>
+                                </div>
                             )}
                             <button
                                 className="w-full mt-6 py-2 tracking-wide text-white duration-200 bg-[#141E61]
                                 rounded-md hover:bg-[#0F044C] focus:outline-none focus:bg-[#0F044C]"
-                                onClick={handleLogin}
                             >
                                 Log in
                             </button>

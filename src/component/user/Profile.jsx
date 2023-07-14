@@ -6,6 +6,7 @@ import useProfile from "./useProfile.js"
 import Loading from "../util/Loading.jsx"
 import ShowMoreButton from "../util/ShowMoreButton.jsx"
 import PictureDialog from "../util/PictureDialog.jsx";
+import EditProfileDialog from "./EditProfileDialog.jsx";
 
 export default function Profile() {
 
@@ -19,8 +20,8 @@ export default function Profile() {
         postsLoading,
         hasMore,
         getUser,
+        formatBody,
         addNewPost,
-        toggleEdit,
         updateNumberOfFollowers
     } = useProfile(page)
     const profilePictureClasses = [
@@ -64,14 +65,7 @@ export default function Profile() {
                                                 updateNumberOfFollowers={updateNumberOfFollowers}
                                             />
                                         ) : (
-                                            <button
-                                                className="hover:text-violet-500"
-                                                onClick={toggleEdit}
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                                </svg>
-                                            </button>
+                                            <EditProfileDialog profileData={profileData}/>
                                         )}
                                     </div>
                                 </div>
@@ -79,7 +73,10 @@ export default function Profile() {
                                     <div>
                                         <h1 className="font-medium text-3xl">{profileData.username}</h1>
                                         <span className="text-md">{profileData.email}</span>
-                                        <p className="font-thin py-3 italic">{profileData.bio}</p>
+                                        <p
+                                            className="font-thin py-3 italic"
+                                            dangerouslySetInnerHTML={{ __html: formatBody(profileData.bio) }}
+                                        ></p>
                                     </div>
                                     <div className="flex gap-x-3 flex-wrap">
                                         <button

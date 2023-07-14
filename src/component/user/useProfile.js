@@ -12,14 +12,13 @@ export default function useProfile(page) {
     const [postsLoading, setPostsLoading] = useState(false)
     const urlParams = new URLSearchParams(window.location.search)
     const username = urlParams.get("username")
-    const [isEditable, setIsEditable] = useState(false)
     const [posts, setPosts] = useState([])
     const [profileData, setProfileData] = useState({
         id: null,
-        username: null,
-        email: null,
-        bio: null,
-        avatarUrl: null,
+        username: "",
+        email: "",
+        bio: "",
+        avatarUrl: "",
         numberOfFollowers: 0,
         numberOfFollowing: 0,
         followedByCurrentUser: false
@@ -73,12 +72,22 @@ export default function useProfile(page) {
         setPosts([newPost, ...posts])
     }
 
-    const toggleEdit = () => {
-        setIsEditable(!isEditable)
-    }
+    function formatBody(text) {
+        if (text === null) return
+        const urlRegex = /(https?:\/\/\S+)/g
+        const lineBreakRegex = /\n/g
+        const bodyWithLineBreaks = text.replace(lineBreakRegex, "<br>")
 
-    const updateProfile = () => {
-        toggleEdit()
+        return bodyWithLineBreaks.replace(urlRegex, url => {
+            return `
+            <a 
+                href="${url}" target="_blank" rel="noopener noreferrer" 
+                class="text-blue-600 hover:underline break-all"
+            >
+                ${url}
+            </a>
+        `
+        })
     }
 
     return {
@@ -87,11 +96,9 @@ export default function useProfile(page) {
         profileLoading,
         postsLoading,
         hasMore,
-        isEditable,
         getUser,
+        formatBody,
         addNewPost,
-        updateProfile,
-        toggleEdit,
         updateNumberOfFollowers
     }
 }

@@ -32,6 +32,23 @@ export default function Comment(props) {
         return new Date(date).toLocaleString()
     }
 
+    function formatBody(body) {
+        const urlRegex = /(https?:\/\/\S+)/g
+        const lineBreakRegex = /\n/g
+        const bodyWithLineBreaks = body.replace(lineBreakRegex, "<br>")
+
+        return bodyWithLineBreaks.replace(urlRegex, url => {
+            return `
+            <a 
+                href="${url}" target="_blank" rel="noopener noreferrer" 
+                class="text-blue-600 hover:underline break-all"
+            >
+                ${url}
+            </a>
+        `
+        })
+    }
+
     function addNewComment(newComment) {
         setChildComments([...childComments, newComment])
         toggleReply()
@@ -69,7 +86,7 @@ export default function Comment(props) {
 
     return (
         <div className="border p-3">
-            <div className="border-solid border-0 border-b border-blue-600 pb-2 flex flex-row gap-x-3">
+            <div className="border-solid border-0 border-b border-[#141E61] pb-2 flex flex-row gap-x-3">
                 <img
                     src={props.comment.author.avatarUrl}
                     alt="User avatar..."
@@ -87,7 +104,10 @@ export default function Comment(props) {
                     <div className="font-normal text-xs">{formatDate(props.comment.createdAt)}</div>
                 </div>
             </div>
-            <div className="pt-2 break-normal">{props.comment.body}</div>
+            <div
+                className="pt-2 break-normal"
+                dangerouslySetInnerHTML={{ __html: formatBody(props.comment.body) }}
+            ></div>
             <div className="flex w-full pt-3 justify-between">
                 <div className="flex gap-x-6">
                     <CommentLikeButton comment={props.comment}/>

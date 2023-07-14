@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react"
+import React, {useContext, useEffect, useRef, useState} from "react"
 import postService from "../../api/PostApi.js"
 import {useNavigate} from "react-router-dom"
 import CommentSection from "../comment/CommentSection.jsx"
@@ -12,9 +12,10 @@ export default function PostDetail() {
     const urlParams = new URLSearchParams(window.location.search)
     const postId = urlParams.get("id")
     const navigate = useNavigate()
+    const textareaRef = useRef(null)
     const [isEditable, setIsEditable] = useState(false)
     const [post, setPost] = useState(null)
-    const [postUpdateRequest, setPostUpdateRequest] = useState({
+    const [request, setRequest] = useState({
         body: ""
     })
 
@@ -23,7 +24,7 @@ export default function PostDetail() {
             .then(response => {
                 if (response.status === 200) {
                     setPost(response.data)
-                    setPostUpdateRequest({
+                    setRequest({
                         body: response.data.body
                     })
                 }
@@ -37,10 +38,10 @@ export default function PostDetail() {
     }, [postId])
 
     function updatePost() {
-        postService.updatePost(postId, postUpdateRequest)
+        postService.updatePost(postId, request)
             .then(response => {
                 if (response.status === 200) {
-                    setPostUpdateRequest({
+                    setRequest({
                         body: response.data.body
                     })
                     setPost(response.data)
@@ -76,8 +77,8 @@ export default function PostDetail() {
 
     function toggleEdit() {
         if (isEditable) {
-            setPostUpdateRequest({
-                body: postUpdateRequest.body
+            setRequest({
+                body: request.body
             })
         }
         setIsEditable(!isEditable)
@@ -85,15 +86,18 @@ export default function PostDetail() {
 
     function formatBody(body) {
         const urlRegex = /(https?:\/\/\S+)/g
-        return body.replace(urlRegex, url => {
+        const lineBreakRegex = /\n/g
+        const bodyWithLineBreaks = body.replace(lineBreakRegex, "<br>")
+
+        return bodyWithLineBreaks.replace(urlRegex, url => {
             return `
-                <a 
-                    href="${url}" target="_blank" rel="noopener noreferrer" 
-                    class="text-blue-500 hover:underline break-all"
-                >
-                    ${url}
-                </a>
-            `
+            <a 
+                href="${url}" target="_blank" rel="noopener noreferrer" 
+                class="text-blue-600 hover:underline break-all"
+            >
+                ${url}
+            </a>
+        `
         })
     }
 
@@ -109,13 +113,19 @@ export default function PostDetail() {
     }
 
     function handleChange(e) {
-        setPostUpdateRequest({...postUpdateRequest, [e.target.name]: e.target.value})
+        setRequest({...request, [e.target.name]: e.target.value})
+    }
+
+    function handleTextareaResize() {
+        const textarea = textareaRef.current
+        textarea.style.height = "auto"
+        textarea.style.height = `${textarea.scrollHeight}px`
     }
 
     return (
         <div className="flex w-full justify-center">
             <div className="flex flex-col w-11/12 md:w-3/5">
-                <section className="flex flex-col bg-[#F6F6F6] rounded px-1 md:px-6 py-6 gap-y-3">
+                <section className="flex flex-col bg-[#F6F6F6] rounded px-3 md:px-6 py-6 gap-y-3">
                     {!post ? <Loading/> : (
                         <>
                             {post.author.username === getUser().username || getUser().role === "ADMIN" ? (
@@ -161,7 +171,7 @@ export default function PostDetail() {
                                     )}
                                 </div>
                             ) : null}
-                            <div className="flex justify-between border-b pb-3 px-3">
+                            <div className="flex justify-between pb-3">
                                 <div className="flex flex-row gap-x-3">
                                     <img
                                         src={post.author.avatarUrl}
@@ -184,17 +194,21 @@ export default function PostDetail() {
                                 </div>
                             </div>
                             {isEditable ? (
-                                <textarea
-                                    name="body"
-                                    value={postUpdateRequest.body}
-                                    onChange={handleChange}
-                                    className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md
-                                    focus:border-blue-700 focus:ring-blue-300 focus:outline-none focus:ring
-                                    focus:ring-opacity-40"
-                                    rows={4}
-                                >
-                                    {postUpdateRequest.body}
-                                </textarea>
+                                    <textarea
+                                        rows={3}
+                                        ref={textareaRef}
+                                        name="body"
+                                        value={request.body}
+                                        className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border
+                                        rounded-md overflow-y-hidden focus:border-[#0F044C] focus:ring-[#141E61]
+                                        focus:outline-none focus:ring focus:ring-opacity-40"
+                                        onChange={(e) => {
+                                            handleChange(e)
+                                            handleTextareaResize()
+                                        }}
+                                    >
+                                        {request.body}
+                                    </textarea>
                             ) : (
                                 <div className="bg-white p-3">
                                     <div
@@ -204,8 +218,8 @@ export default function PostDetail() {
                                 </div>
                             )}
 
-                            <div className="flex flex-col py-3 text-base gap-y-3">
-                                <div className="flex w-full gap-x-6 px-3">
+                            <div className="flex flex-col py-3 text-base gap-y-3 px-3 md:px-0">
+                                <div className="flex w-full gap-x-6">
                                     <PostLikeButton
                                         post={post}
                                         addLike={addLike}

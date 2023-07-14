@@ -1,12 +1,10 @@
 import postService from "../../api/PostApi.js"
 import React, { useContext, useState, useRef } from "react"
-import ErrorNotification from "../util/ErrorNotification.jsx"
 import { AuthContext } from "../security/AuthContext.js"
 
 export default function CreatePost(props) {
 
     const { logout } = useContext(AuthContext)
-    const [error, setError] = useState(null)
     const [isBodyValid, setIsBodyValid] = useState(false)
     const textareaRef = useRef(null)
     const [request, setRequest] = useState({
@@ -27,7 +25,6 @@ export default function CreatePost(props) {
     }
 
     function createPost() {
-        setError(null)
         if (!validateBody(request.body)) {
             return
         }
@@ -43,7 +40,6 @@ export default function CreatePost(props) {
                     logout()
                 }
                 console.log(e.response.status + ": " + e.response.data.message)
-                setError(e.response.data.message)
             })
     }
 
@@ -107,8 +103,6 @@ export default function CreatePost(props) {
                     </button>
                 </div>
             </div>
-
-            {error && <ErrorNotification message={error} />}
         </>
     )
 }
