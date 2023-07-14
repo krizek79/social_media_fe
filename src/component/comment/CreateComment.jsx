@@ -86,8 +86,9 @@ export default function CreateComment(props) {
                     name="body"
                     ref={textareaRef}
                     value={request.body}
-                    className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md focus:border-blue-700
-                    focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 overflow-y-hidden"
+                    className="mb-2 block w-full px-4 py-2 mt-2 text-black bg-white border rounded-md
+                    focus:border-[#0F044C] focus:ring-[#141E61] focus:outline-none focus:ring focus:ring-opacity-40
+                    overflow-y-hidden"
                     onChange={handleChange}
                     placeholder="Write a new comment"
                 ></textarea>

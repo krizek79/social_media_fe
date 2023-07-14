@@ -4,7 +4,7 @@ import FooterMenuProfilePictureDialog from "./FooterMenuProfilePictureDialog.jsx
 export default function FooterMenu() {
 
     return (
-        <footer className="flex z-20 w-full bg-[#F6F6F6] border-t border-gray-200">
+        <footer className="flex w-full bg-[#F6F6F6] border-t border-gray-200">
             <FooterMenuProfilePictureDialog/>
             <div className="my-1.5 border-r border-gray-700"></div>
             <a

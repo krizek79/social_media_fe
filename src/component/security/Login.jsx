@@ -1,87 +1,80 @@
 import React, {useContext, useState} from "react"
-import RegistrationModal from "./RegistrationModal.jsx"
 import authService from "../../api/AuthenticationApi.js"
 import {useNavigate} from "react-router-dom"
+import {AuthContext} from "./AuthContext.js"
+import RegistrationDialog from "./RegistrationDialog.jsx"
 import ErrorNotification from "../util/ErrorNotification.jsx";
-import {AuthContext} from "./AuthContext.js";
 
 export default function Login() {
 
     const { login } = useContext(AuthContext)
     const navigate = useNavigate()
-    const [registrationModal, setRegistrationModal] = useState(false)
-    const [error, setError] = useState(null)
+    const [apiError, setApiError] = useState(null)
     const [loginRequest, setLoginRequest] = useState({
         usernameOrEmail: "",
         password: ""
     })
+    const [fieldErrors, setFieldErrors] = useState({
+        usernameOrEmail: "",
+        password: ""
+    })
 
-    function toggleRegistrationModal() {
-        setError(null)
-        setRegistrationModal(!registrationModal)
-    }
+    function validateField(name, value) {
+        let error = ""
 
-    function validateUsernameOrEmail(usernameOrEmail) {
-        const usernameOrEmailError = document.getElementById("loginUsernameOrEmailError")
-        if (usernameOrEmail.length === 0) {
-            usernameOrEmailError.innerHTML = "Please enter your username or email"
-            return false
-        } else {
-            usernameOrEmailError.innerHTML = ""
-            return true
+        switch (name) {
+            case "usernameOrEmail":
+                if (value.length === 0) {
+                    error = "Username/email is required"
+                }
+                break
+            case "password":
+                if (value.length === 0) {
+                    error = "Password is required"
+                }
+                break
+            default:
+                break
         }
+
+        setFieldErrors((prevErrors) => ({ ...prevErrors, [name]: error }))
     }
 
-    function validatePassword(password) {
-        const passwordError = document.getElementById("loginPasswordError")
-        if (password.length === 0) {
-            passwordError.innerHTML = "Please enter your password"
-            return false
-        } else {
-            passwordError.innerHTML = ""
-            return true
-        }
-    }
 
     function handleChange(e) {
-        if (e.target.name === "usernameOrEmail") {
-            validateUsernameOrEmail(e.target.value)
-        }
-        if (e.target.name === "password") {
-            validatePassword(e.target.value)
-        }
-        setLoginRequest({ ...loginRequest, [e.target.name]: e.target.value })
+        const { name, value } = e.target
+        setLoginRequest({ ...loginRequest, [name]: value })
+        validateField(name, value)
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        handleLogin()
     }
 
     function handleLogin() {
-        setError(null)
-        if (!validateUsernameOrEmail(loginRequest.usernameOrEmail) || !validatePassword(loginRequest.password)) {
-            return
-        }
-
+        setApiError(null)
         authService.login(loginRequest)
             .then(response => {
                 login(response.data)
                 navigate("/")
             })
             .catch(e => {
-                console.log(e)
-                if (e.response.status === 401) {
-                    setError("Wrong credentials")
+                if (e.response?.status === 401) {
+                    setApiError("Wrong email/username or password")
                 } else {
-                    console.log(e.response.status + ": " + e.response.data.message)
-                    setError(e.response.data.message)
+                    console.log(e)
                 }
             })
     }
 
     return (
-        <div className="flex w-full">
-            <div className="mx-3 md:mx-24 my-28 justify-center items-center flex w-full">
-                <div className="w-full flex flex-col justify-center">
-                    <div className="sm:px-6 w-full p-6 pt-3 m-auto bg-[#F6F6F6] rounded-md shadow-md lg:max-w-xl">
-                        <div className="mt-3">
-                            <div className="mb-2">
+        <div className="flex w-full h-full">
+            <div className="justify-center items-center flex w-full">
+                <div className="w-full flex flex-col justify-center px-3">
+                    <div className="sm:px-6 w-full p-6 pt-3 m-auto bg-[#F6F6F6] rounded-md shadow-md md:max-w-xl">
+                        <form className="flex flex-col gap-y-2 my-3" onSubmit={handleSubmit}>
+                            <div>
                                 <label
                                     htmlFor="usernameOrEmail"
                                     className="block text-sm font-semibold text-gray-800"
@@ -95,12 +88,14 @@ export default function Login() {
                                     value={loginRequest.usernameOrEmail}
                                     onChange={handleChange}
                                     className="block w-full px-4 py-2 mt-2 text-black bg-white border
-                                    rounded-md focus:border-blue-700 focus:ring-blue-300 focus:outline-none
+                                    rounded-md focus:border-[#0F044C] focus:ring-[#141E61] focus:outline-none
                                     focus:ring focus:ring-opacity-40"
                                 />
-                                <span id="loginUsernameOrEmailError" className="text-red-500 text-sm"></span>
+                                {fieldErrors.usernameOrEmail && (
+                                    <span className="text-red-500 text-sm">{fieldErrors.usernameOrEmail}</span>
+                                )}
                             </div>
-                            <div className="mb-2">
+                            <div>
                                 <label
                                     htmlFor="password"
                                     className="block text-sm font-semibold text-gray-800"
@@ -114,43 +109,31 @@ export default function Login() {
                                     value={loginRequest.password}
                                     onChange={handleChange}
                                     className="block w-full px-4 py-2 mt-2 text-black bg-white border
-                                    rounded-md focus:border-blue-700 focus:ring-blue-300 focus:outline-none
+                                    rounded-md focus:border-[#0F044C] focus:ring-[#141E61] focus:outline-none
                                     focus:ring focus:ring-opacity-40"
                                 />
-                                <span id="loginPasswordError" className="text-red-500 text-sm"></span>
+                                {fieldErrors.password && (
+                                    <span className="text-red-500 text-sm">{fieldErrors.password}</span>
+                                )}
                             </div>
-                            <div className="mt-6">
-                                <button
-                                    className="w-full px-4 py-2 tracking-wide text-white transition-colors
-                                    duration-200 transform bg-blue-700 rounded-md hover:bg-blue-600
-                                    focus:outline-none focus:bg-blue-600"
-                                    onClick={handleLogin}
-                                >
-                                    Log in
-                                </button>
-                            </div>
-                        </div>
-                        <div className="mt-3 border-t">
+                            {apiError && (
+                                <ErrorNotification message={apiError}/>
+                            )}
                             <button
-                                className="mt-3 w-full px-4 py-2 tracking-wide text-white transition-colors
-                                duration-200 transform bg-green-700 rounded-md hover:bg-green-600
-                                focus:outline-none focus:bg-green-600"
-                                onClick={toggleRegistrationModal}
+                                className="w-full mt-6 py-2 tracking-wide text-white duration-200 bg-[#141E61]
+                                rounded-md hover:bg-[#0F044C] focus:outline-none focus:bg-[#0F044C]"
+                                onClick={handleLogin}
                             >
-                                Create new account
+                                Log in
                             </button>
+                        </form>
+                        <div className="flex flex-col gap-y-3">
+                            <div className="border-t"></div>
+                            <RegistrationDialog/>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {registrationModal && (
-                <RegistrationModal action={toggleRegistrationModal}/>
-            )}
-
-            {error && (
-                <ErrorNotification message={error}/>
-            )}
         </div>
     )
 }

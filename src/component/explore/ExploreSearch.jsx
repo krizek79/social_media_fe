@@ -28,12 +28,11 @@ export default function ExploreSearch() {
     return (
         <div className="flex flex-col">
             <div
-                className="flex justify-between rounded border items-center focus:outline-none focus:ring-2
-                focus:ring-blue-600"
+                className="flex justify-between gap-x-3 rounded items-center bg-white"
             >
                 <input
-                    className="w-full px-4 py-2 bg-white text-black focus:border focus:rounded focus:outline-none
-                    focus:ring-1 focus:ring-blue-600"
+                    className="w-full px-4 py-2 bg-white text-black focus:border-[#0F044C] focus:ring-[#141E61]
+                    focus:outline-none focus:ring focus:ring-opacity-40 rounded-md"
                     type="text"
                     value={query}
                     onChange={handleChange}

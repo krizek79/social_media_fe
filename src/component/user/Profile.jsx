@@ -5,6 +5,7 @@ import FollowButton from "./FollowButton.jsx"
 import useProfile from "./useProfile.js"
 import Loading from "../util/Loading.jsx"
 import ShowMoreButton from "../util/ShowMoreButton.jsx"
+import PictureDialog from "../util/PictureDialog.jsx";
 
 export default function Profile() {
 
@@ -22,6 +23,14 @@ export default function Profile() {
         toggleEdit,
         updateNumberOfFollowers
     } = useProfile(page)
+    const profilePictureClasses = [
+        "rounded-full",
+        "h-32",
+        "w-32",
+        "hover:cursor-pointer",
+        "hover:grayscale-[50%]",
+        "duration-300"
+    ]
 
     function handleShowMore() {
         setPage((prevPageNumber) => prevPageNumber + 1)
@@ -43,11 +52,10 @@ export default function Profile() {
                         <>
                             <div className="flex flex-col p-3 gap-y-3 gap-x-6 border-b">
                                 <div className="flex flex-row justify-between">
-                                    <img
+                                    <PictureDialog
                                         src={profileData.avatarUrl}
-                                        alt={"User avatar..."}
-                                        className="rounded-full h-32 w-32 hover:cursor-pointer hover:grayscale-[50%]
-                                        duration-300"
+                                        alt={"Profile picture"}
+                                        classes={profilePictureClasses}
                                     />
                                     <div className="flex items-end">
                                         {profileData.username !== getUser().username ? (

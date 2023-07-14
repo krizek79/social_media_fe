@@ -29,7 +29,7 @@ export default function Post(props) {
                 className="px-3 py-3 border rounded hover:cursor-pointer hover:bg-gray-200"
                 onClick={() => navigate("/post?id=" + props.post.id)}
             >
-                <div className="border-solid border-0 border-b border-blue-600 pb-2 flex flex-row gap-x-3">
+                <div className="border-solid border-0 border-b border-[#141E61] pb-2 flex flex-row gap-x-3">
                     <img
                         src={props.post.author.avatarUrl}
                         alt="Profile picture"

@@ -1,30 +1,22 @@
-import {useState} from "react";
+import {Fragment, useState} from "react"
 
 export default function ErrorNotification(props) {
 
     const message = props.message
-    const [modal, setModal] = useState(true)
-
-    function toggleModal() {
-        setModal(!modal)
-    }
+    const [isClosed, setIsClosed] = useState(false)
 
     return (
         <>
-            {modal && (
-                <div
-                    className="flex absolute right-0 top-28 py-2 bg-white border-2
-                    border-l-red-500 border-t-red-500 border-b-red-500 rounded-tl-lg rounded-bl-lg z-50"
-                >
-                    <div className="pl-3 font-medium text-red-500">
+            {!isClosed && (
+                <div className="flex w-full p-3 hover:opacity-95 duration-300 bg-red-400 justify-between">
+                    <div className="">
                         {message}
                     </div>
-                    <button
-                        className="px-3 text-center"
-                        onClick={toggleModal}
-                    >
-                        &times;
-                    </button>
+                    <div className="">
+                        <button onClick={() => setIsClosed(true)}>
+                            &times;
+                        </button>
+                    </div>
                 </div>
             )}
         </>
