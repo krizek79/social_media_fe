@@ -59,6 +59,16 @@ export default function RegistrationDialog() {
         setFieldErrors((prevErrors) => ({ ...prevErrors, [name]: error }))
     }
 
+    function areFieldsEmpty(request) {
+        for (const key in request) {
+            if (typeof request[key] === 'string' && request[key].trim() === '') {
+                validateField(key, request[key])
+                return true
+            }
+        }
+        return false
+    }
+
     function handleChange(e) {
         const { name, value } = e.target
         setRequest({ ...request, [name]: value })
@@ -67,6 +77,9 @@ export default function RegistrationDialog() {
 
     function handleSubmit(e) {
         e.preventDefault()
+        if (areFieldsEmpty(request)) {
+            return
+        }
         register()
     }
 

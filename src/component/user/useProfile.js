@@ -14,7 +14,7 @@ export default function useProfile(page) {
     const username = urlParams.get("username")
     const [posts, setPosts] = useState([])
     const [profileData, setProfileData] = useState({
-        id: null,
+        id: 0,
         username: "",
         email: "",
         bio: "",

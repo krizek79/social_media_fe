@@ -1,5 +1,10 @@
 #   Social media - FE
 ##  About
+Frontend of my Social Media project.
+<br>
+Front end can be found [here](https://github.com/krizek79/social_media_be).
+<br>
+
 ##  Used technologies
 - ReactJS
 - Vite

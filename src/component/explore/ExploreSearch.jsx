@@ -55,7 +55,7 @@ export default function ExploreSearch() {
                 )}
             </div>
             {showResults && (
-                <div className="flex flex-col w-full">
+                <div className="flex flex-col w-full mt-1">
                     {results.map(profile => (
                         <ExploreProfilePreview key={profile.id} profile={profile}/>
                     ))}

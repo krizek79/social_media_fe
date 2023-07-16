@@ -1,13 +1,16 @@
-import React, {Fragment, useRef, useState} from "react"
+import React, {Fragment, useContext, useRef, useState} from "react"
 import {Dialog, Transition} from "@headlessui/react"
+import appUserApi from "../../api/AppUserApi.js";
+import {AuthContext} from "../security/AuthContext.js";
 
 export default function EditProfileDialog(props) {
 
+    const { logout } = useContext(AuthContext)
     const [isOpen, setIsOpen] = useState(false)
     const textareaRef = useRef(null)
     const [request, setRequest] = useState({
         email: props.profileData.email,
-        username: props.profileData.username,
+        // username: props.profileData.username,
         bio: props.profileData.bio,
         avatarUrl: props.profileData.avatarUrl
     })
@@ -40,11 +43,47 @@ export default function EditProfileDialog(props) {
         setFieldErrors((prevErrors) => ({ ...prevErrors, [name]: error }))
     }
 
+    function areFieldsEmpty(request) {
+        for (const key in request) {
+            if (key === "bio") {
+                continue
+            }
+            if (typeof request[key] === 'string' && request[key].trim() === '') {
+                validateField(key, request[key])
+                return true
+            }
+        }
+        return false
+    }
 
     function handleChange(e) {
         const { name, value } = e.target
         setRequest({ ...request, [name]: value })
         validateField(name, value)
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        if (areFieldsEmpty(request)) {
+            return
+        }
+        updateUser()
+    }
+
+    function updateUser() {
+        appUserApi.updateAppUser(props.profileData.id, request)
+            .then(response => {
+                if (response.status === 200) {
+                    toggleDialog()
+                    window.location.reload()
+                }
+            })
+            .catch(error => {
+                if (error.response.status === 401) {
+                    logout()
+                }
+                console.log(error.response.status + ": " + error.response.data.message)
+            })
     }
 
     function toggleDialog() {
@@ -60,12 +99,14 @@ export default function EditProfileDialog(props) {
     return (
         <>
             <button
-                className="hover:text-violet-500"
+                // className="hover:text-violet-500"
+                className="border-2 border-black py-1.5 px-6 rounded-lg text-black hover:bg-gray-200"
                 onClick={toggleDialog}
             >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                </svg>
+                Edit profile
+                {/*<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">*/}
+                {/*    <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>*/}
+                {/*</svg>*/}
             </button>
             <Transition appear show={isOpen} as={Fragment}>
                 <Dialog as="div" className="relative z-50" onClose={toggleDialog}>
@@ -100,11 +141,11 @@ export default function EditProfileDialog(props) {
                                             Edit profile
                                         </Dialog.Title>
                                     </div>
-                                    <form className="flex flex-col gap-y-6 mt-3">
+                                    <form className="flex flex-col gap-y-6 mt-3" onSubmit={handleSubmit}>
                                         <div className="flex flex-col md:flex-row">
                                             <div className="flex w-full md:w-3/5 justify-center items-center">
                                                 <img
-                                                    src={props.profileData.avatarUrl}
+                                                    src={request.avatarUrl}
                                                     alt="Profile picture"
                                                     className="rounded-full object-scale-down h-32 w-32
                                                     hover:cursor-pointer hover:grayscale-[50%] duration-200"
@@ -134,28 +175,28 @@ export default function EditProfileDialog(props) {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <div>
-                                                    <label
-                                                        htmlFor="username"
-                                                        className="text-sm font-semibold text-gray-800"
-                                                    >
-                                                        Username
-                                                    </label>
-                                                    <input
-                                                        id={"username"}
-                                                        name={"username"}
-                                                        value={request.username}
-                                                        onChange={handleChange}
-                                                        className="w-full px-4 py-2 mt-2 bg-white border rounded-md
-                                                        focus:border-[#0F044C] focus:ring-[#141E61] focus:outline-none
-                                                        focus:ring focus:ring-opacity-40"
-                                                    />
-                                                    {fieldErrors.username && (
-                                                        <span className="text-red-500 text-sm">
-                                                            {fieldErrors.username}
-                                                        </span>
-                                                    )}
-                                                </div>
+                                                {/*<div>*/}
+                                                {/*    <label*/}
+                                                {/*        htmlFor="username"*/}
+                                                {/*        className="text-sm font-semibold text-gray-800"*/}
+                                                {/*    >*/}
+                                                {/*        Username*/}
+                                                {/*    </label>*/}
+                                                {/*    <input*/}
+                                                {/*        id={"username"}*/}
+                                                {/*        name={"username"}*/}
+                                                {/*        value={request.username}*/}
+                                                {/*        onChange={handleChange}*/}
+                                                {/*        className="w-full px-4 py-2 mt-2 bg-white border rounded-md*/}
+                                                {/*        focus:border-[#0F044C] focus:ring-[#141E61] focus:outline-none*/}
+                                                {/*        focus:ring focus:ring-opacity-40"*/}
+                                                {/*    />*/}
+                                                {/*    {fieldErrors.username && (*/}
+                                                {/*        <span className="text-red-500 text-sm">*/}
+                                                {/*            {fieldErrors.username}*/}
+                                                {/*        </span>*/}
+                                                {/*    )}*/}
+                                                {/*</div>*/}
                                                 <div>
                                                     <label
                                                         htmlFor="bio"

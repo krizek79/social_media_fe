@@ -10,7 +10,7 @@ export default function Login() {
     const { login } = useContext(AuthContext)
     const navigate = useNavigate()
     const [apiError, setApiError] = useState(null)
-    const [loginRequest, setLoginRequest] = useState({
+    const [request, setRequest] = useState({
         usernameOrEmail: "",
         password: ""
     })
@@ -40,21 +40,33 @@ export default function Login() {
         setFieldErrors((prevErrors) => ({ ...prevErrors, [name]: error }))
     }
 
+    function areFieldsEmpty(request) {
+        for (const key in request) {
+            if (typeof request[key] === 'string' && request[key].trim() === '') {
+                validateField(key, request[key])
+                return true
+            }
+        }
+        return false
+    }
 
     function handleChange(e) {
         const { name, value } = e.target
-        setLoginRequest({ ...loginRequest, [name]: value })
+        setRequest({ ...request, [name]: value })
         validateField(name, value)
     }
 
     function handleSubmit(e) {
         e.preventDefault()
+        if (areFieldsEmpty(request)) {
+            return
+        }
         handleLogin()
     }
 
     function handleLogin() {
         setApiError(null)
-        authService.login(loginRequest)
+        authService.login(request)
             .then(response => {
                 login(response.data)
                 navigate("/")
@@ -85,7 +97,7 @@ export default function Login() {
                                     id="usernameOrEmail"
                                     type="text"
                                     name={"usernameOrEmail"}
-                                    value={loginRequest.usernameOrEmail}
+                                    value={request.usernameOrEmail}
                                     onChange={handleChange}
                                     className="block w-full px-4 py-2 mt-2 text-black bg-white border
                                     rounded-md focus:border-[#0F044C] focus:ring-[#141E61] focus:outline-none
@@ -106,7 +118,7 @@ export default function Login() {
                                     id="password"
                                     type="password"
                                     name={"password"}
-                                    value={loginRequest.password}
+                                    value={request.password}
                                     onChange={handleChange}
                                     className="block w-full px-4 py-2 mt-2 text-black bg-white border
                                     rounded-md focus:border-[#0F044C] focus:ring-[#141E61] focus:outline-none

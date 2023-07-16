@@ -55,7 +55,7 @@ export default function FollowButton(props) {
             <button
                 className={`border-2 border-black py-1.5 px-6 rounded-lg 
                 ${followedByCurrentUser 
-                    ? "bg-[#F6F6F6] text-black hover:bg-gray-200" 
+                    ? "text-black hover:bg-gray-200" 
                     : "bg-[#141E61] text-white hover:bg-[#0F044C]"}`}
                 onClick={handleFollow}
             >

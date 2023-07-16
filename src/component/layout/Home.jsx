@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Loading from "../util/Loading.jsx";
 import useHome from "./useHome.js";
 import ShowMoreButton from "../util/ShowMoreButton.jsx";
-import SuggestedProfilesCarousel from "../explore/SuggestedProfilesCarousel.jsx";
 
 export default function Home() {
 
@@ -22,7 +21,6 @@ export default function Home() {
     return (
         <div className="flex w-full justify-center">
             <div className="flex flex-col gap-y-3 w-11/12 md:w-3/5">
-                <SuggestedProfilesCarousel/>
                 <section className="flex flex-col bg-[#F6F6F6] rounded px-1 md:px-6 py-6 gap-y-3">
                     <CreatePost addNewPost={addNewPost} />
                     {posts.length === 0 && !loading && (
