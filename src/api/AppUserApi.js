@@ -22,8 +22,8 @@ export default new class AppUserService {
         })
     }
 
-    getRandomUnfollowedAppUsers(page, size) {
-        return axios.get(`${APP_USER_API_BASE_URL}/random?page=${page}&size=${size}`, {
+    getUnfollowedAppUsers(page, size) {
+        return axios.get(`${APP_USER_API_BASE_URL}/unfollowed?page=${page}&size=${size}`, {
             headers: {
                 Authorization: "Bearer " + Cookies.get("token")
             }

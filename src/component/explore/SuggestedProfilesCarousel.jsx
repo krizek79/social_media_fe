@@ -1,6 +1,8 @@
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../security/AuthContext.js";
 import appUserApi from "../../api/AppUserApi.js";
+import ShowMoreButton from "../util/ShowMoreButton.jsx";
+import Loading from "../util/Loading.jsx";
 
 export default function SuggestedProfilesCarousel() {
 
@@ -9,12 +11,11 @@ export default function SuggestedProfilesCarousel() {
     const PAGE_SIZE = 5
     const [page, setPage] = useState(0)
     const [loading, setLoading] = useState(true)
-    const [posts, setPosts] = useState([])
     const [hasMore, setHasMore] = useState(false)
 
     useEffect(() => {
         setLoading(true)
-        appUserApi.getRandomUnfollowedAppUsers(page, PAGE_SIZE)
+        appUserApi.getUnfollowedAppUsers(page, PAGE_SIZE)
             .then((response) => {
                 setProfiles((prevProfiles) => {
                     return [...new Set([...prevProfiles, ...response.data])]
@@ -31,6 +32,9 @@ export default function SuggestedProfilesCarousel() {
             .finally(() => setLoading(false))
     }, [page])
 
+    function handleShowMore() {
+        setPage((prevPageNumber) => prevPageNumber + 1)
+    }
 
     return (
         <div className="flex flex-col w-full gap-y-3 border rounded p-3">
@@ -39,7 +43,7 @@ export default function SuggestedProfilesCarousel() {
                 {profiles.map((profile) => (
                     <a
                         key={profile.username}
-                        className={`flex-shrink-0 w-1/3 md:w-1/5 flex gap-x-3`}
+                        className={`flex-shrink-0 w-48 flex gap-x-3`}
                         href={`/profile?username=${profile.username}`}
                     >
                         <div className="flex flex-col p-3 justify-between w-full">
@@ -55,6 +59,16 @@ export default function SuggestedProfilesCarousel() {
                         </div>
                     </a>
                 ))}
+                {hasMore && (
+                    <div className="flex justify-center items-center px-12">
+                        <ShowMoreButton handleShowMore={handleShowMore}/>
+                    </div>
+                )}
+                {loading && (
+                    <div className="flex justify-center items-center px-12">
+                        <Loading />
+                    </div>
+                )}
             </div>
         </div>
     )
