@@ -1,4 +1,4 @@
-export default function ListModal(props) {
+export default function FollowStatsDialog(props) {
 
     return (
         <div className="">

@@ -49,7 +49,7 @@ export default function Profile() {
                                         classes={profilePictureClasses}
                                     />
                                     <div className="flex items-end">
-                                        {profileData.username !== getUser().username ? (
+                                        {profileData.email !== getUser().email ? (
                                             <FollowButton
                                                 profileData={profileData}
                                                 updateNumberOfFollowers={updateNumberOfFollowers}

@@ -13,20 +13,36 @@ export default new class AppUserService {
         })
     }
 
+    getUnfollowedAppUsers(page, size) {
+        return axios.get(`${APP_USER_API_BASE_URL}/unfollowed?page=${page}&size=${size}`, {
+            headers: {
+                Authorization: "Bearer " + Cookies.get("token")
+            }
+        })
+    }
+
+    getFollowers(page, size) {
+        return axios.get(`${APP_USER_API_BASE_URL}/followers?page=${page}&size=${size}`, {
+            headers: {
+                Authorization: "Bearer " + Cookies.get("token")
+            }
+        })
+    }
+
+    getFollowing(page, size) {
+        return axios.get(`${APP_USER_API_BASE_URL}/following?page=${page}&size=${size}`, {
+            headers: {
+                Authorization: "Bearer " + Cookies.get("token")
+            }
+        })
+    }
+
     searchForAppUsersLikeUsername(page, size, cancelToken, username) {
         return axios.get(`${APP_USER_API_BASE_URL}/search?page=${page}&size=${size}&username=${username}`, {
             headers: {
                 Authorization: "Bearer " + Cookies.get("token")
             },
             cancelToken: cancelToken
-        })
-    }
-
-    getUnfollowedAppUsers(page, size) {
-        return axios.get(`${APP_USER_API_BASE_URL}/unfollowed?page=${page}&size=${size}`, {
-            headers: {
-                Authorization: "Bearer " + Cookies.get("token")
-            }
         })
     }
 
