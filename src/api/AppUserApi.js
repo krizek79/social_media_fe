@@ -21,16 +21,16 @@ export default new class AppUserService {
         })
     }
 
-    getFollowers(page, size) {
-        return axios.get(`${APP_USER_API_BASE_URL}/followers?page=${page}&size=${size}`, {
+    getFollowers(page, size, username) {
+        return axios.get(`${APP_USER_API_BASE_URL}/followers/${username}?page=${page}&size=${size}`, {
             headers: {
                 Authorization: "Bearer " + Cookies.get("token")
             }
         })
     }
 
-    getFollowing(page, size) {
-        return axios.get(`${APP_USER_API_BASE_URL}/following?page=${page}&size=${size}`, {
+    getFollowing(page, size, username) {
+        return axios.get(`${APP_USER_API_BASE_URL}/following/${username}?page=${page}&size=${size}`, {
             headers: {
                 Authorization: "Bearer " + Cookies.get("token")
             }

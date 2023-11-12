@@ -7,6 +7,7 @@ import Loading from "../util/Loading.jsx"
 import ShowMoreButton from "../util/ShowMoreButton.jsx"
 import PictureDialog from "../util/PictureDialog.jsx";
 import EditProfileDialog from "./EditProfileDialog.jsx";
+import FollowStatsDialog from "./FollowStatsDialog.jsx";
 
 export default function Profile() {
 
@@ -69,16 +70,8 @@ export default function Profile() {
                                         ></p>
                                     </div>
                                     <div className="flex gap-x-3 flex-wrap">
-                                        <button
-                                            className="hover:cursor-pointer hover:underline decoration-1"
-                                        >
-                                            <span className="font-bold">{profileData.numberOfFollowing}</span> Following
-                                        </button>
-                                        <button
-                                            className="hover:cursor-pointer hover:underline decoration-1"
-                                        >
-                                            <span className="font-bold">{profileData.numberOfFollowers}</span> Followers
-                                        </button>
+                                        <FollowStatsDialog title={"Following"} amount={profileData.numberOfFollowing}/>
+                                        <FollowStatsDialog title={"Followers"} amount={profileData.numberOfFollowers}/>
                                     </div>
                                 </div>
                             </div>
