@@ -10,4 +10,6 @@ Back end can be found [here](https://github.com/krizek79/social_media_be).
 - Vite
 - TailwindCSS
 ##  Run
+``npm i``
+<br>
 ``npm run dev``
